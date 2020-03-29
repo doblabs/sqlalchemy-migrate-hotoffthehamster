@@ -2,7 +2,7 @@ include AUTHORS
 include ChangeLog
 include README.rst
 recursive-include docs *
-recursive-include migrate *
+recursive-include sqlalchemy_migrate_hotoffthehamster *
 recursive-include tests *
 global-exclude *pyc
 recursive-exclude docs/_build *

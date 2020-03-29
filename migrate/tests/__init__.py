@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 
 from unittest import TestCase
-import migrate
+import sqlalchemy_migrate_hotoffthehamster
 import six
 
 

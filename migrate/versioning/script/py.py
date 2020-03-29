@@ -6,7 +6,7 @@ import warnings
 import logging
 import inspect
 
-import migrate
+import sqlalchemy_migrate_hotoffthehamster
 from migrate.versioning import genmodel, schemadiff
 from migrate.versioning.config import operations
 from migrate.versioning.template import Template

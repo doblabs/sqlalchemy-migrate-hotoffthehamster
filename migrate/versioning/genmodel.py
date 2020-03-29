@@ -12,7 +12,7 @@ import logging
 import six
 import sqlalchemy
 
-import migrate
+import sqlalchemy_migrate_hotoffthehamster
 import migrate.changeset
 
 

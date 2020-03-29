@@ -25,9 +25,9 @@ class Shell(Pathed):
         )
 
     def run_version(self, repos_path):
-        result = self.env.run('migrate version %s' % repos_path)
+        result = self.env.run('sqlalchemy_migrate_hotoffthehamster version %s' % repos_path)
         return int(result.stdout.strip())
 
     def run_db_version(self, url, repos_path):
-        result = self.env.run('migrate db_version %s %s' % (url, repos_path))
+        result = self.env.run('sqlalchemy_migrate_hotoffthehamster db_version %s %s' % (url, repos_path))
         return int(result.stdout.strip())

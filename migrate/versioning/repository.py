@@ -87,7 +87,7 @@ class Repository(pathed.Pathed):
         """
         Ensure the target path is a valid repository.
 
-        :raises: :exc:`InvalidRepositoryError <migrate.exceptions.InvalidRepositoryError>`
+        :raises: :exc:`InvalidRepositoryError <sqlalchemy_migrate_hotoffthehamster.exceptions.InvalidRepositoryError>`
         """
         # Ensure the existence of required files
         try:
@@ -159,19 +159,19 @@ class Repository(pathed.Pathed):
         return cls(path)
 
     def create_script(self, description, **k):
-        """API to :meth:`migrate.versioning.version.Collection.create_new_python_version`"""
+        """API to :meth:`sqlalchemy_migrate_hotoffthehamster.versioning.version.Collection.create_new_python_version`"""
 
         k['use_timestamp_numbering'] = self.use_timestamp_numbering
         self.versions.create_new_python_version(description, **k)
 
     def create_script_sql(self, database, description, **k):
-        """API to :meth:`migrate.versioning.version.Collection.create_new_sql_version`"""
+        """API to :meth:`sqlalchemy_migrate_hotoffthehamster.versioning.version.Collection.create_new_sql_version`"""
         k['use_timestamp_numbering'] = self.use_timestamp_numbering
         self.versions.create_new_sql_version(database, description, **k)
 
     @property
     def latest(self):
-        """API to :attr:`migrate.versioning.version.Collection.latest`"""
+        """API to :attr:`sqlalchemy_migrate_hotoffthehamster.versioning.version.Collection.latest`"""
         return self.versions.latest
 
     @property
@@ -192,7 +192,7 @@ class Repository(pathed.Pathed):
         return False
 
     def version(self, *p, **k):
-        """API to :attr:`migrate.versioning.version.Collection.version`"""
+        """API to :attr:`sqlalchemy_migrate_hotoffthehamster.versioning.version.Collection.version`"""
         return self.versions.version(*p, **k)
 
     @classmethod
@@ -238,7 +238,7 @@ class Repository(pathed.Pathed):
         """Create a project management script (manage.py)
 
         :param file_: Destination file to be written
-        :param opts: Options that are passed to :func:`migrate.versioning.shell.main`
+        :param opts: Options that are passed to :func:`sqlalchemy_migrate_hotoffthehamster.versioning.shell.main`
         """
         mng_file = Template(opts.pop('templates_path', None))\
             .get_manage(theme=opts.pop('templates_theme', None))

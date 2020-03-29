@@ -57,7 +57,7 @@ class PassiveOptionParser(OptionParser):
                 del rargs[0]
 
 def main(argv=None, **kwargs):
-    """Shell interface to :mod:`migrate.versioning.api`.
+    """Shell interface to :mod:`sqlalchemy_migrate_hotoffthehamster.versioning.api`.
 
     kwargs are default options that can be overriden with passing
     --some_option as command line option

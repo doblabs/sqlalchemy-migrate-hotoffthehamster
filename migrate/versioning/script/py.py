@@ -27,7 +27,7 @@ class PythonScript(base.BaseScript):
     def create(cls, path, **opts):
         """Create an empty migration script at specified path
 
-        :returns: :class:`PythonScript instance <migrate.versioning.script.py.PythonScript>`"""
+        :returns: :class:`PythonScript instance <sqlalchemy_migrate_hotoffthehamster.versioning.script.py.PythonScript>`"""
         cls.require_notfound(path)
 
         src = Template(opts.pop('templates_path', None)).get_script(theme=opts.pop('templates_theme', None))
@@ -44,7 +44,7 @@ class PythonScript(base.BaseScript):
         :param oldmodel: dotted.module.name:SAClass or SAClass object
         :param model: dotted.module.name:SAClass or SAClass object
         :param engine: SQLAlchemy engine
-        :type repository: string or :class:`Repository instance <migrate.versioning.repository.Repository>`
+        :type repository: string or :class:`Repository instance <sqlalchemy_migrate_hotoffthehamster.versioning.repository.Repository>`
         :type oldmodel: string or Class
         :type model: string or Class
         :type engine: Engine instance
@@ -90,7 +90,7 @@ class PythonScript(base.BaseScript):
 
         :param path: Script location
         :type path: string
-        :raises: :exc:`InvalidScriptError <migrate.exceptions.InvalidScriptError>`
+        :raises: :exc:`InvalidScriptError <sqlalchemy_migrate_hotoffthehamster.exceptions.InvalidScriptError>`
         :returns: Python module
         """
         # Try to import and get the upgrade() func
@@ -103,7 +103,7 @@ class PythonScript(base.BaseScript):
 
     def preview_sql(self, url, step, **args):
         """Mocks SQLAlchemy Engine to store all executed calls in a string
-        and runs :meth:`PythonScript.run <migrate.versioning.script.py.PythonScript.run>`
+        and runs :meth:`PythonScript.run <sqlalchemy_migrate_hotoffthehamster.versioning.script.py.PythonScript.run>`
 
         :returns: SQL file
         """
@@ -155,7 +155,7 @@ class PythonScript(base.BaseScript):
 
     @property
     def module(self):
-        """Calls :meth:`migrate.versioning.script.py.verify_module`
+        """Calls :meth:`sqlalchemy_migrate_hotoffthehamster.versioning.script.py.verify_module`
         and returns it.
         """
         if not hasattr(self, '_module'):

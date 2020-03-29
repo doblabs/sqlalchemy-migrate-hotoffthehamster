@@ -11,6 +11,6 @@ import six
 
 class TestVersionDefined(TestCase):
     def test_version(self):
-        """Test for migrate.__version__"""
-        self.assertTrue(isinstance(migrate.__version__, six.string_types))
-        self.assertTrue(len(migrate.__version__) > 0)
+        """Test for sqlalchemy_migrate_hotoffthehamster.__version__"""
+        self.assertTrue(isinstance(sqlalchemy_migrate_hotoffthehamster.__version__, six.string_types))
+        self.assertTrue(len(sqlalchemy_migrate_hotoffthehamster.__version__) > 0)

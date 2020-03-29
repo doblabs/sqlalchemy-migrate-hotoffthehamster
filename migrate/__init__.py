@@ -1,7 +1,7 @@
 """
-   SQLAlchemy migrate provides two APIs :mod:`migrate.versioning` for
+   SQLAlchemy migrate provides two APIs :mod:`sqlalchemy_migrate_hotoffthehamster.versioning` for
    database schema version and repository management and
-   :mod:`migrate.changeset` that allows to define database schema changes
+   :mod:`sqlalchemy_migrate_hotoffthehamster.changeset` that allows to define database schema changes
    using Python.
 """
 

@@ -2,7 +2,7 @@
    This module provides an external API to the versioning system.
 
    .. versionchanged:: 0.6.0
-    :func:`migrate.versioning.api.test` and schema diff functions
+    :func:`sqlalchemy_migrate_hotoffthehamster.versioning.api.test` and schema diff functions
     changed order of positional arguments so all accept `url` and `repository`
     as first arguments.
 
@@ -13,7 +13,7 @@
 
    .. versionchanged:: 0.5.4
     Deprecated ``--echo`` parameter in favour of new
-    :func:`migrate.versioning.util.construct_engine` behavior.
+    :func:`sqlalchemy_migrate_hotoffthehamster.versioning.util.construct_engine` behavior.
 """
 
 # Dear migrate developers,

@@ -78,7 +78,7 @@ class InvalidScriptError(ScriptError):
 class InvalidVersionError(Error):
     """Invalid version error."""
 
-# migrate.changeset
+# sqlalchemy_migrate_hotoffthehamster.changeset
 
 class NotSupportedError(Error):
     """Not supported error"""

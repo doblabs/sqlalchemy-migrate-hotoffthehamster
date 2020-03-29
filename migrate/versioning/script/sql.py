@@ -19,7 +19,7 @@ class SqlScript(base.BaseScript):
     def create(cls, path, **opts):
         """Create an empty migration script at specified path
 
-        :returns: :class:`SqlScript instance <migrate.versioning.script.sql.SqlScript>`"""
+        :returns: :class:`SqlScript instance <sqlalchemy_migrate_hotoffthehamster.versioning.script.sql.SqlScript>`"""
         cls.require_notfound(path)
 
         src = Template(opts.pop('templates_path', None)).get_sql_script(theme=opts.pop('templates_theme', None))

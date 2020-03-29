@@ -17,7 +17,7 @@ from sqlalchemy_migrate_hotoffthehamster.tests.fixture import models
 
 
 class TestShellCommands(Shell):
-    """Tests migrate.py commands"""
+    """Tests sqlalchemy_migrate_hotoffthehamster.py commands"""
 
     def test_help(self):
         """Displays default help dialog"""
@@ -54,7 +54,7 @@ class TestShellCommands(Shell):
             original = sys.argv
             sys.argv=['X','--help']
 
-            run_module('migrate.versioning.shell', run_name='__main__')
+            run_module('sqlalchemy_migrate_hotoffthehamster.versioning.shell', run_name='__main__')
 
         finally:
             sys.argv = original
@@ -457,8 +457,8 @@ class TestShellDatabase(Shell, DB):
         repos_name = 'repos_name'
         repos_path = self.tmp()
         script_path = self.tmp_py()
-        model_module = 'migrate.tests.fixture.models:meta_rundiffs'
-        old_model_module = 'migrate.tests.fixture.models:meta_old_rundiffs'
+        model_module = 'sqlalchemy_migrate_hotoffthehamster.tests.fixture.models:meta_rundiffs'
+        old_model_module = 'sqlalchemy_migrate_hotoffthehamster.tests.fixture.models:meta_old_rundiffs'
 
         # Create empty repository.
         self.meta = MetaData(self.engine)

@@ -37,7 +37,7 @@ class Template(pathed.Pathed):
     :param path: Templates are loaded from sqlalchemy_migrate_hotoffthehamster package
     if `path` is not provided.
     """
-    pkg = 'migrate.versioning.templates'
+    pkg = 'sqlalchemy_migrate_hotoffthehamster.versioning.templates'
 
     def __new__(cls, path=None):
         if path is None:

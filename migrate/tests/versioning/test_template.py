@@ -4,7 +4,7 @@
 import os
 import shutil
 
-import migrate.versioning.templates
+import sqlalchemy_migrate_hotoffthehamster.versioning.templates
 from sqlalchemy_migrate_hotoffthehamster.versioning.template import *
 from sqlalchemy_migrate_hotoffthehamster.versioning import api
 
@@ -42,7 +42,7 @@ class TestTemplate(fixture.Pathed):
         new_manage_dest = self.tmp_py()
 
         # make new templates dir
-        shutil.copytree(migrate.versioning.templates.__path__[0], new_templates_dir)
+        shutil.copytree(sqlalchemy_migrate_hotoffthehamster.versioning.templates.__path__[0], new_templates_dir)
         shutil.copytree(os.path.join(new_templates_dir, 'repository/default'),
             os.path.join(new_templates_dir, 'repository/custom'))
 

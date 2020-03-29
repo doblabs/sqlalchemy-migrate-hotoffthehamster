@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-""".. currentmodule:: migrate.versioning.util"""
+""".. currentmodule:: sqlalchemy_migrate_hotoffthehamster.versioning.util"""
 
 import warnings
 import logging
@@ -103,11 +103,11 @@ def construct_engine(engine, **opts):
 
     Constructs and returns SQLAlchemy engine.
 
-    Currently, there are 2 ways to pass create_engine options to :mod:`migrate.versioning.api` functions:
+    Currently, there are 2 ways to pass create_engine options to :mod:`sqlalchemy_migrate_hotoffthehamster.versioning.api` functions:
 
     :param engine: connection string or a existing engine
     :param engine_dict: python dictionary of options to pass to `create_engine`
-    :param engine_arg_*: keyword parameters to pass to `create_engine` (evaluated with :func:`migrate.versioning.util.guess_obj_type`)
+    :param engine_arg_*: keyword parameters to pass to `create_engine` (evaluated with :func:`sqlalchemy_migrate_hotoffthehamster.versioning.util.guess_obj_type`)
     :type engine_dict: dict
     :type engine: string or Engine instance
     :type engine_arg_*: string
@@ -149,7 +149,7 @@ def construct_engine(engine, **opts):
 
 @decorator
 def with_engine(f, *a, **kw):
-    """Decorator for :mod:`migrate.versioning.api` functions
+    """Decorator for :mod:`sqlalchemy_migrate_hotoffthehamster.versioning.api` functions
     to safely close resources after function usage.
 
     Passes engine parameters to :func:`construct_engine` and

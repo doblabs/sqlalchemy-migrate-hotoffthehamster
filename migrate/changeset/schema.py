@@ -563,9 +563,9 @@ class ChangesetColumn(object):
         :param table: Table instance to create on.
         :param index_name: Creates :class:`ChangesetIndex` on this column.
         :param unique_name: Creates :class:\
-`~migrate.changeset.constraint.UniqueConstraint` on this column.
+`~sqlalchemy_migrate_hotoffthehamster.changeset.constraint.UniqueConstraint` on this column.
         :param primary_key_name: Creates :class:\
-`~migrate.changeset.constraint.PrimaryKeyConstraint` on this column.
+`~sqlalchemy_migrate_hotoffthehamster.changeset.constraint.PrimaryKeyConstraint` on this column.
         :param populate_default: If True, created column will be \
 populated with defaults
         :param connection: reuse connection istead of creating new one.

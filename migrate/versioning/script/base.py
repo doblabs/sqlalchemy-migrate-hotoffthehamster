@@ -34,7 +34,7 @@ class BaseScript(pathed.Pathed):
         """Ensure this is a valid script
         This version simply ensures the script file's existence
 
-        :raises: :exc:`InvalidScriptError <migrate.exceptions.InvalidScriptError>`
+        :raises: :exc:`InvalidScriptError <sqlalchemy_migrate_hotoffthehamster.exceptions.InvalidScriptError>`
         """
         try:
             cls.require_found(path)

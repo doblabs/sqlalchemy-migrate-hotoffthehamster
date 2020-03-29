@@ -13,7 +13,7 @@ import six
 import sqlalchemy
 
 import sqlalchemy_migrate_hotoffthehamster
-import migrate.changeset
+import sqlalchemy_migrate_hotoffthehamster.changeset
 
 
 log = logging.getLogger(__name__)

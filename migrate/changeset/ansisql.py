@@ -267,7 +267,7 @@ class ANSIConstraintCommon(AlterTableVisitor):
         """Gets a name for the given constraint.
 
         If the name is already set it will be used otherwise the
-        constraint's :meth:`autoname <migrate.changeset.constraint.ConstraintChangeset.autoname>`
+        constraint's :meth:`autoname <sqlalchemy_migrate_hotoffthehamster.changeset.constraint.ConstraintChangeset.autoname>`
         method is used.
 
         :param cons: constraint object

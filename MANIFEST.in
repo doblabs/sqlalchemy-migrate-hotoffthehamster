@@ -1,6 +1,6 @@
 include AUTHORS
 include ChangeLog
-include README
+include README.rst
 recursive-include docs *
 recursive-include migrate *
 recursive-include tests *

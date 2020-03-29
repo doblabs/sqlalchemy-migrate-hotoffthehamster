@@ -6,10 +6,10 @@ import six
 import sqlalchemy
 from sqlalchemy import *
 
-from migrate.versioning import genmodel, schemadiff
-from migrate.changeset import schema
+from sqlalchemy_migrate_hotoffthehamster.versioning import genmodel, schemadiff
+from sqlalchemy_migrate_hotoffthehamster.changeset import schema
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestSchemaDiff(fixture.DB):
@@ -68,7 +68,7 @@ class TestSchemaDiff(fixture.DB):
         # expect different output in that case.
         if repr(String()) == 'String()':
             self.assertEqualIgnoreWhitespace(decls, '''
-            from migrate.changeset import schema
+            from sqlalchemy_migrate_hotoffthehamster.changeset import schema
             pre_meta = MetaData()
             post_meta = MetaData()
             tmp_schemadiff = Table('tmp_schemadiff', post_meta,
@@ -79,7 +79,7 @@ class TestSchemaDiff(fixture.DB):
             ''')
         else:
             self.assertEqualIgnoreWhitespace(decls, '''
-            from migrate.changeset import schema
+            from sqlalchemy_migrate_hotoffthehamster.changeset import schema
             pre_meta = MetaData()
             post_meta = MetaData()
             tmp_schemadiff = Table('tmp_schemadiff', post_meta,

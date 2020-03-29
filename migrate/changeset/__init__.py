@@ -18,8 +18,8 @@ SQLA_10 = _sa_version >= (1, 0)
 del re
 del _sa_version
 
-from migrate.changeset.schema import *
-from migrate.changeset.constraint import *
+from sqlalchemy_migrate_hotoffthehamster.changeset.schema import *
+from sqlalchemy_migrate_hotoffthehamster.changeset.constraint import *
 
 sqlalchemy.schema.Table.__bases__ += (ChangesetTable, )
 sqlalchemy.schema.Column.__bases__ += (ChangesetColumn, )

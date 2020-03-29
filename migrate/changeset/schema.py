@@ -14,10 +14,10 @@ import sqlalchemy
 from sqlalchemy.schema import ForeignKeyConstraint
 from sqlalchemy.schema import UniqueConstraint
 
-from migrate.exceptions import *
-from migrate.changeset import SQLA_07, SQLA_08
-from migrate.changeset import util
-from migrate.changeset.databases.visitor import (get_engine_visitor,
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.changeset import SQLA_07, SQLA_08
+from sqlalchemy_migrate_hotoffthehamster.changeset import util
+from sqlalchemy_migrate_hotoffthehamster.changeset.databases.visitor import (get_engine_visitor,
                                                  run_single_visitor)
 
 

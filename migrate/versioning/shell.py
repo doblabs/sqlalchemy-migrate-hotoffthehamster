@@ -8,10 +8,10 @@ import inspect
 import logging
 from optparse import OptionParser, BadOptionError
 
-from migrate import exceptions
-from migrate.versioning import api
-from migrate.versioning.config import *
-from migrate.versioning.util import asbool
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning import api
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import asbool
 import six
 
 

@@ -6,7 +6,7 @@ import sys
 import shutil
 import tempfile
 
-from migrate.tests.fixture import base
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture import base
 
 
 class Pathed(base.Base):

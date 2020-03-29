@@ -3,9 +3,9 @@
 
 import os,shutil
 
-from migrate.tests import fixture
-from migrate.versioning.schema import *
-from migrate.versioning import script
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.versioning.schema import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import script
 
 
 class TestRunChangeset(fixture.Pathed,fixture.DB):

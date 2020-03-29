@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from migrate import exceptions
-from migrate.versioning.config import operations
-from migrate.versioning import pathed
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import operations
+from sqlalchemy_migrate_hotoffthehamster.versioning import pathed
 
 
 log = logging.getLogger(__name__)

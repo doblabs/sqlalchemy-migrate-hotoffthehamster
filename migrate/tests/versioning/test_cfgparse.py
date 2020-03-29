@@ -1,10 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from migrate.versioning import cfgparse
-from migrate.versioning.repository import *
-from migrate.versioning.template import Template
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.versioning import cfgparse
+from sqlalchemy_migrate_hotoffthehamster.versioning.repository import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.template import Template
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestConfigParser(fixture.Base):

@@ -12,9 +12,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.engine import Engine
 from sqlalchemy.pool import StaticPool
 
-from migrate import exceptions
-from migrate.versioning.util.keyedinstance import KeyedInstance
-from migrate.versioning.util.importpath import import_path
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning.util.keyedinstance import KeyedInstance
+from sqlalchemy_migrate_hotoffthehamster.versioning.util.importpath import import_path
 
 
 log = logging.getLogger(__name__)

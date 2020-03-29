@@ -5,11 +5,11 @@ from sqlalchemy import *
 from sqlalchemy.util import *
 from sqlalchemy.exc import *
 
-from migrate.changeset.util import fk_column_names
-from migrate.exceptions import *
-from migrate.changeset import *
+from sqlalchemy_migrate_hotoffthehamster.changeset.util import fk_column_names
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.changeset import *
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class CommonTestConstraint(fixture.DB):

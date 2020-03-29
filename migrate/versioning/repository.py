@@ -9,10 +9,10 @@ import logging
 from pkg_resources import resource_filename
 from tempita import Template as TempitaTemplate
 
-from migrate import exceptions
-from migrate.versioning import version, pathed, cfgparse
-from migrate.versioning.template import Template
-from migrate.versioning.config import *
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning import version, pathed, cfgparse
+from sqlalchemy_migrate_hotoffthehamster.versioning.template import Template
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import *
 
 
 log = logging.getLogger(__name__)

@@ -1,5 +1,5 @@
 from sqlalchemy import *
-from migrate import *
+from sqlalchemy_migrate_hotoffthehamster import *
 
 
 def upgrade(migrate_engine):

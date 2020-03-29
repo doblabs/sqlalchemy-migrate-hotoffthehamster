@@ -5,8 +5,8 @@ import mock
 
 import six
 
-from migrate.changeset.databases import ibmdb2
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.changeset.databases import ibmdb2
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestIBMDBDialect(fixture.Base):

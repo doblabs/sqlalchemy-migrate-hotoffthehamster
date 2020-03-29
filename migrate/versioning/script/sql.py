@@ -6,8 +6,8 @@ import shutil
 
 import sqlparse
 
-from migrate.versioning.script import base
-from migrate.versioning.template import Template
+from sqlalchemy_migrate_hotoffthehamster.versioning.script import base
+from sqlalchemy_migrate_hotoffthehamster.versioning.template import Template
 
 
 log = logging.getLogger(__name__)

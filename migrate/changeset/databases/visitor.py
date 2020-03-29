@@ -3,8 +3,8 @@
 """
 import sqlalchemy as sa
 
-from migrate.changeset import ansisql
-from migrate.changeset.databases import (sqlite,
+from sqlalchemy_migrate_hotoffthehamster.changeset import ansisql
+from sqlalchemy_migrate_hotoffthehamster.changeset.databases import (sqlite,
                                          postgres,
                                          mysql,
                                          oracle,
@@ -27,7 +27,7 @@ DIALECTS = {
 # isn't available since ibm_db_sa is not packaged in sqlalchemy like the
 # other dialects.
 try:
-    from migrate.changeset.databases import ibmdb2
+    from sqlalchemy_migrate_hotoffthehamster.changeset.databases import ibmdb2
     DIALECTS["ibm_db_sa"] = ibmdb2.IBMDBDialect
 except ImportError:
     pass

@@ -4,8 +4,8 @@
 import sqlalchemy as sa
 from sqlalchemy.databases import oracle as sa_base
 
-from migrate import exceptions
-from migrate.changeset import ansisql
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import ansisql
 
 
 OracleSchemaGenerator = sa_base.OracleDDLCompiler

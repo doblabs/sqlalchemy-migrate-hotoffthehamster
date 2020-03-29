@@ -9,11 +9,11 @@ import six
 from six.moves import cStringIO
 from sqlalchemy import MetaData, Table
 
-from migrate.exceptions import *
-from migrate.versioning.repository import Repository
-from migrate.versioning import genmodel, shell, api
-from migrate.tests.fixture import Shell, DB, usedb
-from migrate.tests.fixture import models
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.repository import Repository
+from sqlalchemy_migrate_hotoffthehamster.versioning import genmodel, shell, api
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture import Shell, DB, usedb
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture import models
 
 
 class TestShellCommands(Shell):
@@ -400,7 +400,7 @@ class TestShellDatabase(Shell, DB):
         script_path = self.tmp_py()
         script_text='''
         from sqlalchemy import *
-        from migrate import *
+        from sqlalchemy_migrate_hotoffthehamster import *
 
         def upgrade():
             print 'fgsfds'
@@ -423,9 +423,9 @@ class TestShellDatabase(Shell, DB):
         script_path = self.tmp_py()
         script_text = '''
         from sqlalchemy import *
-        from migrate import *
+        from sqlalchemy_migrate_hotoffthehamster import *
 
-        from migrate.changeset import schema
+        from sqlalchemy_migrate_hotoffthehamster.changeset import schema
 
         meta = MetaData(migrate_engine)
         account = Table('account', meta,
@@ -435,7 +435,7 @@ class TestShellDatabase(Shell, DB):
         )
         def upgrade():
             # Upgrade operations go here. Don't create your own engine; use the engine
-            # named 'migrate_engine' imported from migrate.
+            # named 'migrate_engine' imported from sqlalchemy_migrate_hotoffthehamster.
             meta.create_all()
 
         def downgrade():
@@ -540,9 +540,9 @@ class TestShellDatabase(Shell, DB):
             #% (self.url, repos_path, old_model_module, model_module))
         #self.assertEqualIgnoreWhitespace(result_script.stdout,
         #'''from sqlalchemy import *
-        #from migrate import *
+        #from sqlalchemy_migrate_hotoffthehamster import *
 
-        #from migrate.changeset import schema
+        #from sqlalchemy_migrate_hotoffthehamster.changeset import schema
 
         #meta = MetaData()
         #tmp_account_rundiffs = Table('tmp_account_rundiffs', meta,

@@ -6,9 +6,9 @@ import os
 import shutil
 import logging
 
-from migrate import exceptions
-from migrate.versioning.config import *
-from migrate.versioning.util import KeyedInstance
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import KeyedInstance
 
 
 log = logging.getLogger(__name__)

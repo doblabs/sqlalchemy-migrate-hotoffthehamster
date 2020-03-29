@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from migrate.exceptions import *
-from migrate.versioning.version import *
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.version import *
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestVerNum(fixture.Base):

@@ -12,10 +12,10 @@ from sqlalchemy.schema import (Index,
                                PrimaryKeyConstraint,
                                UniqueConstraint)
 
-from migrate.changeset import ansisql
-from migrate.changeset import constraint
-from migrate.changeset import util
-from migrate import exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import ansisql
+from sqlalchemy_migrate_hotoffthehamster.changeset import constraint
+from sqlalchemy_migrate_hotoffthehamster.changeset import util
+from sqlalchemy_migrate_hotoffthehamster import exceptions
 
 
 LOG = logging.getLogger(__name__)

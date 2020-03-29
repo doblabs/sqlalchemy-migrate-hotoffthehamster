@@ -3,12 +3,12 @@
 
 import six
 
-from migrate.exceptions import *
-from migrate.versioning import api
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import api
 
-from migrate.tests.fixture.pathed import *
-from migrate.tests.fixture import models
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.pathed import *
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture import models
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestAPI(Pathed):

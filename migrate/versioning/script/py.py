@@ -7,12 +7,12 @@ import logging
 import inspect
 
 import sqlalchemy_migrate_hotoffthehamster
-from migrate.versioning import genmodel, schemadiff
-from migrate.versioning.config import operations
-from migrate.versioning.template import Template
-from migrate.versioning.script import base
-from migrate.versioning.util import import_path, load_model, with_engine
-from migrate.exceptions import MigrateDeprecationWarning, InvalidScriptError, ScriptError
+from sqlalchemy_migrate_hotoffthehamster.versioning import genmodel, schemadiff
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import operations
+from sqlalchemy_migrate_hotoffthehamster.versioning.template import Template
+from sqlalchemy_migrate_hotoffthehamster.versioning.script import base
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import import_path, load_model, with_engine
+from sqlalchemy_migrate_hotoffthehamster.exceptions import MigrateDeprecationWarning, InvalidScriptError, ScriptError
 import six
 from six.moves import StringIO
 
@@ -54,7 +54,7 @@ class PythonScript(base.BaseScript):
 
         if isinstance(repository, six.string_types):
             # oh dear, an import cycle!
-            from migrate.versioning.repository import Repository
+            from sqlalchemy_migrate_hotoffthehamster.versioning.repository import Repository
             repository = Repository(repository)
 
         oldmodel = load_model(oldmodel)

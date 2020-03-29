@@ -5,10 +5,10 @@ import os
 import shutil
 
 import migrate.versioning.templates
-from migrate.versioning.template import *
-from migrate.versioning import api
+from sqlalchemy_migrate_hotoffthehamster.versioning.template import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import api
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestTemplate(fixture.Pathed):

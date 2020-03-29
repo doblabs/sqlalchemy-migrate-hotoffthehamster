@@ -6,13 +6,13 @@ import shutil
 
 import six
 
-from migrate import exceptions
-from migrate.versioning.schema import *
-from migrate.versioning import script, schemadiff
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning.schema import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import script, schemadiff
 
 from sqlalchemy import *
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 
 class TestControlledSchema(fixture.Pathed, fixture.DB):

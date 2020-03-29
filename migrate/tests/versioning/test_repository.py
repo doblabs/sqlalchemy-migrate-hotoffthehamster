@@ -4,11 +4,11 @@
 import os
 import shutil
 
-from migrate import exceptions
-from migrate.versioning.repository import *
-from migrate.versioning.script import *
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning.repository import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.script import *
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 from datetime import datetime
 
 

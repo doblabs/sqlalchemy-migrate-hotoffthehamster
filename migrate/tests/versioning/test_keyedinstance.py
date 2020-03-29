@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from migrate.tests import fixture
-from migrate.versioning.util.keyedinstance import *
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.versioning.util.keyedinstance import *
 
 class TestKeydInstance(fixture.Base):
     def test_unique(self):

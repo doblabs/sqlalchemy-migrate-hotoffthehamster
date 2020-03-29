@@ -7,13 +7,13 @@ import sys
 import shutil
 
 import six
-from migrate import exceptions
-from migrate.versioning import version, repository
-from migrate.versioning.script import *
-from migrate.versioning.util import *
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning import version, repository
+from sqlalchemy_migrate_hotoffthehamster.versioning.script import *
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import *
 
-from migrate.tests import fixture
-from migrate.tests.fixture.models import tmp_sql_table
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.models import tmp_sql_table
 
 
 class TestBaseScript(fixture.Pathed):
@@ -113,7 +113,7 @@ class TestPyScript(fixture.Pathed, fixture.DB):
 
         f = open(path, 'w')
         content = '''
-from migrate import *
+from sqlalchemy_migrate_hotoffthehamster import *
 from sqlalchemy import *
 
 metadata = MetaData()
@@ -255,7 +255,7 @@ class TestSqlScript(fixture.Pathed, fixture.DB):
         # populate python script
         contents = open(script_path, 'r').read()
         contents = contents.replace("pass", "tmp_sql_table.create(migrate_engine)")
-        contents = 'from migrate.tests.fixture.models import tmp_sql_table\n' + contents
+        contents = 'from sqlalchemy_migrate_hotoffthehamster.tests.fixture.models import tmp_sql_table\n' + contents
         f = open(script_path, 'w')
         f.write(contents)
         f.close()

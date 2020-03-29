@@ -1,5 +1,5 @@
-from migrate.tests import fixture
-from migrate.versioning.pathed import *
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.versioning.pathed import *
 
 class TestPathed(fixture.Base):
     def test_parent_path(self):

@@ -4,9 +4,9 @@ import os
 
 from sqlalchemy import *
 
-from migrate.versioning import schemadiff
+from sqlalchemy_migrate_hotoffthehamster.versioning import schemadiff
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 class SchemaDiffBase(fixture.DB):
 

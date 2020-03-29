@@ -5,12 +5,12 @@ import warnings
 
 from sqlalchemy import *
 
-from migrate import changeset, exceptions
-from migrate.changeset import *
-from migrate.changeset import constraint
-from migrate.changeset.schema import ColumnDelta
-from migrate.tests import fixture
-from migrate.tests.fixture.warnings import catch_warnings
+from sqlalchemy_migrate_hotoffthehamster import changeset, exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import *
+from sqlalchemy_migrate_hotoffthehamster.changeset import constraint
+from sqlalchemy_migrate_hotoffthehamster.changeset.schema import ColumnDelta
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.warnings import catch_warnings
 import six
 
 class TestAddDropColumn(fixture.DB):

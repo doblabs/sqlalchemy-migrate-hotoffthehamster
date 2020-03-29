@@ -1,4 +1,4 @@
-from migrate.changeset import SQLA_10
+from sqlalchemy_migrate_hotoffthehamster.changeset import SQLA_10
 
 
 def fk_column_names(constraint):

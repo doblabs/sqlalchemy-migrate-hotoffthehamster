@@ -5,7 +5,7 @@ import sys
 from sqlalchemy import engine_from_config
 from paste.deploy.loadwsgi import ConfigLoader
 
-from migrate.versioning.shell import main
+from sqlalchemy_migrate_hotoffthehamster.versioning.shell import main
 from {{ locals().pop('repository_name') }}.model import migrations
 
 

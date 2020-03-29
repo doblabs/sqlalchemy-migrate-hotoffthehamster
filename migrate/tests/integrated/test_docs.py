@@ -2,7 +2,7 @@ import doctest
 import os
 
 
-from migrate.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
 
 # Collect tests for all handwritten docs: doc/*.rst
 

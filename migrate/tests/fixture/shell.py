@@ -7,7 +7,7 @@ import logging
 
 from scripttest import TestFileEnvironment
 
-from migrate.tests.fixture.pathed import *
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.pathed import *
 
 
 log = logging.getLogger(__name__)

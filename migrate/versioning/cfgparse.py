@@ -4,8 +4,8 @@
 
 from six.moves.configparser import ConfigParser
 
-from migrate.versioning.config import *
-from migrate.versioning import pathed
+from sqlalchemy_migrate_hotoffthehamster.versioning.config import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import pathed
 
 
 class Parser(ConfigParser):

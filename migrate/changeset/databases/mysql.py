@@ -6,9 +6,9 @@ import sqlalchemy
 from sqlalchemy.databases import mysql as sa_base
 from sqlalchemy import types as sqltypes
 
-from migrate import exceptions
-from migrate.changeset import ansisql
-from migrate.changeset import util
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import ansisql
+from sqlalchemy_migrate_hotoffthehamster.changeset import util
 
 
 

@@ -29,10 +29,10 @@ import sys
 import inspect
 import logging
 
-from migrate import exceptions
-from migrate.versioning import (repository, schema, version,
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning import (repository, schema, version,
     script as script_) # command name conflict
-from migrate.versioning.util import catch_known_errors, with_engine
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import catch_known_errors, with_engine
 
 
 log = logging.getLogger(__name__)

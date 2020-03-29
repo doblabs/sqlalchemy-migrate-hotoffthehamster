@@ -15,10 +15,10 @@ from sqlalchemy.schema import (ForeignKeyConstraint,
                                UniqueConstraint,
                                Index)
 
-from migrate import exceptions
+from sqlalchemy_migrate_hotoffthehamster import exceptions
 import sqlalchemy.sql.compiler
-from migrate.changeset import constraint
-from migrate.changeset import util
+from sqlalchemy_migrate_hotoffthehamster.changeset import constraint
+from sqlalchemy_migrate_hotoffthehamster.changeset import util
 from six.moves import StringIO
 
 from sqlalchemy.schema import AddConstraint, DropConstraint

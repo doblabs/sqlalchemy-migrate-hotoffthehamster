@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from migrate.versioning.script.base import BaseScript
-from migrate.versioning.script.py import PythonScript
-from migrate.versioning.script.sql import SqlScript
+from sqlalchemy_migrate_hotoffthehamster.versioning.script.base import BaseScript
+from sqlalchemy_migrate_hotoffthehamster.versioning.script.py import PythonScript
+from sqlalchemy_migrate_hotoffthehamster.versioning.script.sql import SqlScript

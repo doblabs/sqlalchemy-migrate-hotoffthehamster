@@ -6,8 +6,8 @@ import re
 import shutil
 import logging
 
-from migrate import exceptions
-from migrate.versioning import pathed, script
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.versioning import pathed, script
 from datetime import datetime
 import six
 

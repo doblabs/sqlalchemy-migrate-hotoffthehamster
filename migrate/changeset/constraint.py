@@ -3,7 +3,7 @@
 """
 from sqlalchemy import schema
 
-from migrate.exceptions import *
+from sqlalchemy_migrate_hotoffthehamster.exceptions import *
 
 class ConstraintChangeset(object):
     """Base class for Constraint classes."""
@@ -26,7 +26,7 @@ class ConstraintChangeset(object):
 
     def __do_imports(self, visitor_name, *a, **kw):
         engine = kw.pop('engine', self.table.bind)
-        from migrate.changeset.databases.visitor import (get_engine_visitor,
+        from sqlalchemy_migrate_hotoffthehamster.changeset.databases.visitor import (get_engine_visitor,
                                                          run_single_visitor)
         visitorcallable = get_engine_visitor(engine, visitor_name)
         run_single_visitor(engine, visitorcallable, self, *a, **kw)

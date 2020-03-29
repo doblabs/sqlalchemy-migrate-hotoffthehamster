@@ -172,7 +172,7 @@ class ModelGenerator(object):
         Assume model (A) is most current and database (B) is out-of-date.
         '''
 
-        decls = ['from migrate.changeset import schema',
+        decls = ['from sqlalchemy_migrate_hotoffthehamster.changeset import schema',
                  'pre_meta = MetaData()',
                  'post_meta = MetaData()',
                 ]

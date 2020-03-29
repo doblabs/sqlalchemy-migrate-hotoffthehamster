@@ -13,11 +13,11 @@ from sqlalchemy import exc as sa_exc
 from sqlalchemy.orm import create_session
 from sqlalchemy.pool import StaticPool
 
-from migrate.changeset.schema import ColumnDelta
-from migrate.versioning.util import Memoize
+from sqlalchemy_migrate_hotoffthehamster.changeset.schema import ColumnDelta
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import Memoize
 
-from migrate.tests.fixture.base import Base
-from migrate.tests.fixture.pathed import Pathed
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.base import Base
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.pathed import Pathed
 
 
 log = logging.getLogger(__name__)

@@ -14,8 +14,8 @@ from sqlalchemy.databases import sqlite as sa_base
 from sqlalchemy.schema import ForeignKeyConstraint
 from sqlalchemy.schema import UniqueConstraint
 
-from migrate import exceptions
-from migrate.changeset import ansisql
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import ansisql
 
 
 SQLiteSchemaGenerator = sa_base.SQLiteDDLCompiler

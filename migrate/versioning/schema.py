@@ -11,12 +11,12 @@ from sqlalchemy.sql import and_
 from sqlalchemy import exc as sa_exceptions
 from sqlalchemy.sql import bindparam
 
-from migrate import exceptions
-from migrate.changeset import SQLA_07
-from migrate.versioning import genmodel, schemadiff
-from migrate.versioning.repository import Repository
-from migrate.versioning.util import load_model
-from migrate.versioning.version import VerNum
+from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster.changeset import SQLA_07
+from sqlalchemy_migrate_hotoffthehamster.versioning import genmodel, schemadiff
+from sqlalchemy_migrate_hotoffthehamster.versioning.repository import Repository
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import load_model
+from sqlalchemy_migrate_hotoffthehamster.versioning.version import VerNum
 
 
 log = logging.getLogger(__name__)

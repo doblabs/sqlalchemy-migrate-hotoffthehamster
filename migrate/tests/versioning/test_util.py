@@ -5,11 +5,11 @@ import os
 
 from sqlalchemy import *
 
-from migrate.exceptions import MigrateDeprecationWarning
-from migrate.tests import fixture
-from migrate.tests.fixture.warnings import catch_warnings
-from migrate.versioning.util import *
-from migrate.versioning import api
+from sqlalchemy_migrate_hotoffthehamster.exceptions import MigrateDeprecationWarning
+from sqlalchemy_migrate_hotoffthehamster.tests import fixture
+from sqlalchemy_migrate_hotoffthehamster.tests.fixture.warnings import catch_warnings
+from sqlalchemy_migrate_hotoffthehamster.versioning.util import *
+from sqlalchemy_migrate_hotoffthehamster.versioning import api
 
 import warnings
 

@@ -1,11 +1,13 @@
 {% extends ".pyproject.tmpl" %}
-
+{#
 # vim:tw=0:ts=4:sw=4:et:norl:ft=toml
 # Author: Landon Bouma <https://tallybark.com/>
-# Project: https://github.com/doblabs/easy-as-pypi#🥧
+# Project: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster
 # License: MIT
 
 # Copyright (c) © 2020-2023 Landon Bouma. All Rights Reserved.
+# Copyright (c) 2009 Evan Rosson, Jan Dittberner, Domen Kožar
+#}
 
 {% block project_meta -%}
 
@@ -13,9 +15,9 @@
 # REFER: https://peps.python.org/pep-0621/
 #   https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 
-name = "easy-as-pypi"
+name = "sqlalchemy-migrate-hotoffthehamster"
 version = "0.0.0"
-description = "Bootstrapping your next Python CLI made easy as PyPI"
+description = "Database schema migration for SQLAlchemy"
 
 authors = ["Landon Bouma <doblabs@tallybark.com>"]
 maintainers = ["Tally Bark LLC <doblabs@tallybark.com>"]
@@ -26,10 +28,17 @@ readme = "README.rst"
 # REFER: https://pypi.org/classifiers/
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    # - Upstream identifies a broader audience:
+    #     "Intended Audience :: Information Technology",
+    #     "Intended Audience :: System Administrators",
     "Intended Audience :: Developers",
     "Natural Language :: English",
+    # - Upstream says just Linux (not that classifiers have to mean what they say).
+    #     "Operating System :: POSIX :: Linux",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
+    # - Not sure why upstream has Apache classifier when their COPYING says MIT.
+    #     "License :: OSI Approved :: Apache Software License",
 ]
 
 # Keywords for PyPI to display, and to use for search results.
@@ -51,6 +60,17 @@ keywords = [
 #
 # REFER: https://python-poetry.org/docs/pyproject/#include-and-exclude
 
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/MANIFEST.in
+#
+#  include AUTHORS
+#  include ChangeLog
+#  include README.rst
+#  recursive-include docs *
+#  recursive-include sqlalchemy_migrate_hotoffthehamster *
+#  recursive-include tests *
+#  global-exclude *pyc
+#  recursive-exclude docs/_build *
+
 include = [
     # Included by default:
     #  { path = "LICENSE", format = "sdist" },
@@ -70,12 +90,14 @@ include = [
 
 # ***
 
-# YOU: Disable this if your project derived from easy-as-pypi
-#      does not have a runnable script.
-#      - Otherwise set this to the package entry point.
+# YOU: Uncomment and customize to add a CLI entrypoint:
+#
+#   [tool.poetry.scripts]
+#   sqlalchemy-migrate-hotoffthehamster = "sqlalchemy_migrate_hotoffthehamster:cli"
 
 [tool.poetry.scripts]
-easy-as-pypi = "easy_as_pypi:cli"
+migrate-hoth = "sqlalchemy_migrate_hotoffthehamster.versioning.shell:main"
+migrate-repository-hoth = "sqlalchemy_migrate_hotoffthehamster.versioning.migrate_repository:main"
 
 # ***
 
@@ -107,25 +129,42 @@ coc_contact_email = "tallybark+doblabs -at- gmail.com"
 # WIRED: The Sphinx config (docs/conf.py) and .github/bin/update-poetry
 #        require that 'homepage' or 'repository' is set.
 
-homepage = "https://github.com/doblabs/easy-as-pypi#🥧"
+homepage = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster"
 
 # Include 'repository' unless same as homepage.
-#  repository = "https://github.com/doblabs/easy-as-pypi"
+#  repository = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster"
 
-history = "https://github.com/doblabs/easy-as-pypi/blob/release/HISTORY.rst"
+history = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/blob/release/HISTORY.rst"
 
-documentation = "https://easy-as-pypi.readthedocs.io/en/latest"
+documentation = "https://sqlalchemy-migrate-hotoffthehamster.readthedocs.io/en/latest"
 
-issues = "https://github.com/doblabs/easy-as-pypi/issues"
+issues = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/issues"
 
-download = "https://pypi.org/project/easy-as-pypi/#files"
+download = "https://pypi.org/project/sqlalchemy-migrate-hotoffthehamster/#files"
 
 {% endblock -%}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
 {% block isort_known_third_party -%}
-    "click",
+    "hacking",
+    "discover",
+    "feedparser",
+    "fixtures",
+    "mox",
+    "mysqlclient",
+    "psycopg2",
+    "testtools",
+    "tempest_lib",
+    "scripttest",
+    "pylint",
+    "pytz",
+    #
+    "sqlalchemy",
+    "decorator",
+    "six",
+    "sqlparse",
+    "tempita",
 {%- endblock %}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
@@ -137,11 +176,100 @@ download = "https://pypi.org/project/easy-as-pypi/#files"
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
-{% block project_dependencies -%}
+{#
+    [tool.poetry.group.project_test.dependencies]
+#}
 
-# - "Composable command line interface toolkit"
+{%- block project_test_dependencies -%}
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/test-requirements.txt
+# - COPYD: Comments below <in braces> are from upstream.
+
+# "hacking is a set of flake8 plugins that test and enforce the OpenStack StyleGuide"
+#   https://pypi.org/project/hacking/
+hacking = ">=2.0.0"
+
+# "Parse Atom and RSS feeds in Python."
+#   https://pypi.org/project/feedparser/
+feedparser = ">=6.0.2"
+
+#   https://pypi.org/project/fixtures/
+fixtures = ">=0.3.14"
+
+# "Mox is a mock object framework for Python based on the Java mock object framework EasyMock.
+# "New uses of this library are discouraged.
+# "People are encouraged to use https://pypi.python.org/pypi/mock instead which
+#    matches the unittest.mock library available in Python 3."
+#   https://pypi.org/project/mox/
+mox = ">=0.5.3"
+
+# "Python interface to MySQL"
+#   https://pypi.org/project/mysqlclient/
+mysqlclient = ">=1.4.0"
+
+# "psycopg2 - Python-PostgreSQL Database Adapter"
+#   https://pypi.org/project/psycopg2/
+psycopg2 = ">=2.7.7"
+
+# "testtools is a set of extensions to the Python standard library’s unit testing framework."
+#   https://pypi.org/project/testtools/
+testtools = "^0.9.34"
+
+# "OpenStack Functional Testing Library". Last released Mar, 2016.
+#   https://pypi.org/project/tempest-lib/
+tempest-lib = ">=0.1.0"
+
+# <db2 support>
+#  ibm_db_sa>=0.3.0;python_version<'3.0'
+#  ibm-db-sa-py3;python_version>='3.0'
 #
-#   https://pypi.org/project/click
-#   https://github.com/pallets/click
-click = "^8.0.0"
+# "SQLAlchemy support for IBM Data Servers"
+#   https://pypi.org/project/ibm-db-sa-py3/
+
+# "Helper to test command-line scripts". Last released 2013.
+#   https://pypi.org/project/scripttest/
+scripttest = "^1.3"
+
+# "python code static checker".
+#   https://pypi.org/project/pylint/
+pylint = ">=2.3.0"
+
+# <NOTE(rpodolyaka): This version identifier is currently necessary as
+#                    pytz otherwise does not install on pip 1.4 or higher>
+#
+# "World timezone definitions, modern and historical"
+#   https://pypi.org/project/pytz
+pytz = ">=2023.3.post1"
+{% endblock -%}
+
+# ***
+
+{#
+    [tool.poetry.dependencies]
+ #}
+
+{% block project_dependencies -%}
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/test-requirements.txt
+# - COPYD: Comments below <in braces> are from upstream.
+
+# "Database Abstraction Library"
+#   https://pypi.org/project/SQLAlchemy/
+# - Latest release SQLAlchemy 2.0.23
+# - Use same version as what's in nark (also 2.0 crashes sqlalchemy-migrate).
+sqlalchemy = "~1.3.16"
+
+#   https://pypi.org/project/decorator/
+decorator = "^5.1.1"
+
+# "Python 2 and 3 compatibility utilities". Oh, six!
+#   https://pypi.org/project/six/
+six = ">=1.7.0"
+
+# "A non-validating SQL parser."
+#   https://pypi.org/project/sqlparse/
+sqlparse = "^0.4.4"
+
+# "A very small text templating language"
+#   https://pypi.org/project/Tempita/
+# - Last release Tempita 0.5.2, Dec, 2013.
+Tempita = ">=0.4"
 {% endblock %}

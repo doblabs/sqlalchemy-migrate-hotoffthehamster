@@ -1,11 +1,13 @@
 {% extends ".pyproject.tmpl" %}
-
+{#
 # vim:tw=0:ts=4:sw=4:et:norl:ft=toml
 # Author: Landon Bouma <https://tallybark.com/>
-# Project: https://github.com/doblabs/easy-as-pypi#🥧
+# Project: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster
 # License: MIT
 
 # Copyright (c) © 2020-2023 Landon Bouma. All Rights Reserved.
+# Copyright (c) 2009 Evan Rosson, Jan Dittberner, Domen Kožar
+#}
 
 {% block project_meta -%}
 
@@ -13,9 +15,9 @@
 # REFER: https://peps.python.org/pep-0621/
 #   https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
 
-name = "easy-as-pypi"
+name = "sqlalchemy-migrate-hotoffthehamster"
 version = "0.0.0"
-description = "Bootstrapping your next Python CLI made easy as PyPI"
+description = "Database schema migration for SQLAlchemy"
 
 authors = ["Landon Bouma <doblabs@tallybark.com>"]
 maintainers = ["Tally Bark LLC <doblabs@tallybark.com>"]
@@ -26,10 +28,17 @@ readme = "README.rst"
 # REFER: https://pypi.org/classifiers/
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    # - Upstream identifies a broader audience:
+    #     "Intended Audience :: Information Technology",
+    #     "Intended Audience :: System Administrators",
     "Intended Audience :: Developers",
     "Natural Language :: English",
+    # - Upstream says just Linux (not that classifiers have to mean what they say).
+    #     "Operating System :: POSIX :: Linux",
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Application Frameworks",
+    # - Not sure why upstream has Apache classifier when their COPYING says MIT.
+    #     "License :: OSI Approved :: Apache Software License",
 ]
 
 # Keywords for PyPI to display, and to use for search results.
@@ -51,6 +60,17 @@ keywords = [
 #
 # REFER: https://python-poetry.org/docs/pyproject/#include-and-exclude
 
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/MANIFEST.in
+#
+#  include AUTHORS
+#  include ChangeLog
+#  include README.rst
+#  recursive-include docs *
+#  recursive-include sqlalchemy_migrate_hotoffthehamster *
+#  recursive-include tests *
+#  global-exclude *pyc
+#  recursive-exclude docs/_build *
+
 include = [
     # Included by default:
     #  { path = "LICENSE", format = "sdist" },
@@ -70,12 +90,14 @@ include = [
 
 # ***
 
-# YOU: Disable this if your project derived from easy-as-pypi
-#      does not have a runnable script.
-#      - Otherwise set this to the package entry point.
+# YOU: Uncomment and customize to add a CLI entrypoint:
+#
+#   [tool.poetry.scripts]
+#   sqlalchemy-migrate-hotoffthehamster = "sqlalchemy_migrate_hotoffthehamster:cli"
 
 [tool.poetry.scripts]
-easy-as-pypi = "easy_as_pypi:cli"
+migrate-hoth = "sqlalchemy_migrate_hotoffthehamster.versioning.shell:main"
+migrate-repository-hoth = "sqlalchemy_migrate_hotoffthehamster.versioning.migrate_repository:main"
 
 # ***
 
@@ -107,25 +129,34 @@ coc_contact_email = "tallybark+doblabs -at- gmail.com"
 # WIRED: The Sphinx config (docs/conf.py) and .github/bin/update-poetry
 #        require that 'homepage' or 'repository' is set.
 
-homepage = "https://github.com/doblabs/easy-as-pypi#🥧"
+homepage = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster"
 
 # Include 'repository' unless same as homepage.
-#  repository = "https://github.com/doblabs/easy-as-pypi"
+#  repository = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster"
 
-history = "https://github.com/doblabs/easy-as-pypi/blob/release/HISTORY.rst"
+history = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/blob/release/HISTORY.rst"
 
-documentation = "https://easy-as-pypi.readthedocs.io/en/latest"
+documentation = "https://sqlalchemy-migrate-hotoffthehamster.readthedocs.io/en/latest"
 
-issues = "https://github.com/doblabs/easy-as-pypi/issues"
+issues = "https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/issues"
 
-download = "https://pypi.org/project/easy-as-pypi/#files"
+download = "https://pypi.org/project/sqlalchemy-migrate-hotoffthehamster/#files"
 
 {% endblock -%}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
 {% block isort_known_third_party -%}
-    "click",
+    "psycopg2",
+    "testtools",
+    "scripttest",
+    #
+    "sqlalchemy",
+    "decorator",
+    "six",
+    "sqlparse",
+    "tempita",
+    "tempita_hotoffthehamster",
 {%- endblock %}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
@@ -137,11 +168,376 @@ download = "https://pypi.org/project/easy-as-pypi/#files"
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
 
-{% block project_dependencies -%}
+{#
+    [tool.poetry.group.project_test.dependencies]
+#}
 
-# - "Composable command line interface toolkit"
+{%- block project_test_dependencies -%}
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/test-requirements.txt
+# - COPYD: Comments below <in braces> are from upstream.
+
+# <Install bounded pep8/pyflakes first, then let flake8 install>
+#   pep8 = "==1.5.7"
+#   pyflakes = "==0.8.1"
+#   flake8 = ">=2.2.4,<=2.4.1"
+
+# "hacking is a set of flake8 plugins that test and enforce the OpenStack StyleGuide"
+#   https://pypi.org/project/hacking/
 #
-#   https://pypi.org/project/click
-#   https://github.com/pallets/click
-click = "^8.0.0"
+# - Upstream sqlalchemy-migrate was pinned:
+#     hacking = ">=0.10.0,<0.11"
+#   - And would've been 1.1.0 (2018-05-08) circa 2019.
+# - Latest release: hacking 6.1.0 (2023-12-08).
+#     hacking = ">=2.0.0"
+# - But I don't see 'hacking' used anywhere in code.
+
+# "Code coverage testing for Python."
+#   https://pypi.org/project/coverage/
+#
+# - Upstream sqlalchemy-migrate was using latest release:
+#     coverage = ">=3.6"
+# - Latest release:
+#     coverage = ">=7.3.2"
+# - But EAPP installs this.
+
+# "Test discovery for unittest. Backported from Python 2.7 for Python 2.4+"
+#   https://pypi.org/project/discover/
+#
+# - YIKES/2023-12-12: 'discover' last released Jun, 2010 (0.4.0). Which shows
+#   you *how old* this sqlalchemy-migrate project is! It's also suprising
+#   because the original sqlalchemy-migrate project was last touched "only"
+#   4 years ago (Sep, 2019). But it was also still supporting py2 (and
+#   Python 2 was sunsetted until a few months later, Jan 1, 2020).
+#
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     discover
+#   Which is essentially:
+#     discover = ">0"
+#   And would've been 0.4.0 circa 2019:
+#     discover = ">=0.4.0"
+# - I don't see 'discover' used anywhere in code.
+#   - It is referenced, perhaps, in ./.testr.conf:
+#       ... python -m subunit.run discover -t ./ . $LISTOPT $IDOPTION
+#     Which I think is used by `testrepository`:
+#       https://github.com/testing-cabal/testrepository
+#       https://testrepository.readthedocs.io/en/latest/MANUAL.html
+#     Which I'd guess is maybe used by OpenStack developers,
+#     who created the upstream sqlalchemy-migrate project.
+#     - See also the 'testrepository' dependency, below, which is
+#       disabled. This reinforces my position that a lot of these
+#       'test' dependencies were used by developer tools outside
+#       this project (whereas most of the 'test' dependencies that
+#       EAPP/Dob includes are used by the `make` tasks or by the tests/
+#       (though a few are installed just for the developer, if they
+#       ever choose to run them manually, like `grip` and `restview`)).
+
+# "Parse Atom and RSS feeds in Python."
+#   https://pypi.org/project/feedparser/
+#   
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     feedparser
+#   Which is essentially:
+#     feedparser = ">0"
+#   And would've been 5.2.1 (2015-07-24) circa 2019:
+#     feedparser = "^5.2.1"
+#   But latest v6 (6.0.11 from 2023) works.
+#     feedparser = ">=6.0.2"
+# - But I don't see 'feedparser' used anywhere in code.
+#  feedparser = ">=6.0.2"
+
+# "Fixtures, reusable state for writing clean tests and more."
+#   https://pypi.org/project/fixtures/
+#
+# - Upstream sqlalchemy-migrate was using latest release:
+#     fixtures = ">=0.3.14"
+#   - And would've been 3.0.0 (2016-05-19) circa 2019.
+# - Latest fixtures is 4.1.0, targeting py3.7+.
+# - But I don't see 'feedparser' used anywhere in code.
+#  fixtures = ">=0.3.14"
+
+# "mock is now part of the Python standard library, available as unittest.mock in Python 3.3 onwards."
+#   https://pypi.org/project/mock/
+#
+# mock = ">=1.2"
+
+# "Mox is a mock object framework for Python based on the Java mock object framework EasyMock."
+# "**New uses of this library are discouraged.**"
+# "People are encouraged to use https://pypi.python.org/pypi/mock instead which
+#  matches the unittest.mock library available in Python 3."
+#   https://pypi.org/project/mox/
+#
+# - Upstream sqlalchemy-migrate was using latest release:
+#     mox = ">=0.5.3"
+#   - Which is also the second and latest release, 0.5.3 (2010-08-15) circa 2019.
+# - I don't see 'mox' used anywhere in code.
+
+# "Python interface to MySQL"
+#   https://pypi.org/project/mysqlclient/
+#
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     mysqlclient
+#   Which is essentially:
+#     mysqlclient = ">0"
+#   And would've been 1.4 circa 2019:
+#     discover = ">=1.4.0"
+#   Latest release: mysqlclient 2.2.1 (2023-12-13).
+# - But I don't see 'mysqlclient' used anywhere in code.
+#  mysqlclient = ">=1.4.0"
+
+# "psycopg2 - Python-PostgreSQL Database Adapter"
+#   https://pypi.org/project/psycopg2/
+#
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     psycopg2
+#   Which is essentially:
+#     psycopg2 = ">0"
+#   And would've been 1.4 circa 2019:
+#     psycopg2 = ">=2.7.7"
+#   Latest release: psycopg2 2.9.9 (2023-10-03).
+# - And thgouh I don't see 'psycopg2' used anywhere in code,
+#   it is a database adapter, and probably not called directly...
+#   - So we'll leave this dependency.
+psycopg2 = ">=2.7.7"
+
+# "Subunit is a streaming protocol for test results."
+#   https://pypi.org/project/python-subunit/
+#
+# python-subunit = ">=0.0.18"
+
+# "Python documentation generator".
+#   https://pypi.org/project/sphinx/
+#
+# - Upstream sqlalchemy-migrate was using pinned version:
+#     sphinx = ">=1.1.2,<1.2"
+#   - Sphinx 1.1.2 was released 2011-11-01, which is an indication
+#     how old the original sqlalchemy-migrate was (even though is
+#     was maintained up until 2019).
+# - Latest release: Sphinx 7.2.6.
+# - But EAPP installs this.
+
+# "A Sphinx extension to reference issues in issue trackers, either explicitly
+#  with an “issue” role or optionally implicitly by issue ids like #10 in
+#  plaintext." Last released Jan, 2013.
+#   https://pypi.org/project/sphinxcontrib-issuetracker/
+#
+# - Not used in code. Probably just another dev tool that the
+#   original sqlalchemy-migrate authors used manually.
+# sphinxcontrib_issuetracker = ">0"
+
+# "A repository of test results." Last released Aug, 2014.
+#   https://pypi.org/project/testrepository/
+#
+# - Not used in code. Probably just another dev tool that the
+#   original sqlalchemy-migrate authors used manually.
+# testrepository = ">=0.0.17"
+
+# "testtools is a set of extensions to the Python standard library’s unit testing framework."
+#   https://pypi.org/project/testtools/
+#
+# - Upstream sqlalchemy-migrate was using pinned release:
+#     testtools = ">=0.9.34,<0.9.36"
+#   - We could likewise stick with v0:
+#       testtools = "^0.9.34"
+#   - But we'll use latest: the changes for testtools indicate that we
+#     should be compatible with v1 (bumped to indicate that any new
+#     breaking changes would only happen after a major bump), and also
+#     with v2 (dropped py2.7 and py3.2 support).
+#     - REFER: https://github.com/testing-cabal/testtools/blob/master/NEWS
+#
+# - BWARE/2023-12-14: We need to bring tests back online in this fork.
+#   - Until then, won't really know if using latest version here works.
+testtools = "^2.0.0"
+
+# "OpenStack Functional Testing Library".
+#   https://pypi.org/project/tempest-lib/
+#
+# - Last released: Mar, 2016.
+# - Project page tells us to change the dependency:
+#     "update your imports from tempest_lib to tempest.lib,
+#      and add tempest>=10 to your project requirements"
+#   - REFER: https://pypi.org/project/tempest/
+# - I only see 'tempest' reference by a playbook Yaml:
+#     playbooks/sqlalchemy-migrate-devstack-dsvm/run.yaml
+#   And the playbook itself is referenced by ./.zuul.yaml.
+#   - And neither this fork, nor this developer, use Zuul.
+#     - REFER: https://zuul-ci.org/
+#   - And/or maybe thsee are Ansible playbooks the original
+#     authors used.
+#  tempest-lib = ">=0.1.0"
+
+# <db2 support>
+#
+# "SQLAlchemy support for IBM Data Servers"
+#   https://pypi.org/project/ibm-db-sa-py3/
+#
+# - Upstream sqlalchemy-migrate was using latest release:
+#     ibm-db-sa-py3 = ">0"
+#
+# - ISOFF: We don't care about IBM Db2.
+#   - Fortunately, SQLA-migrate defensively loads the wrapper that uses 'ibm_db_sa':
+#       src/sqlalchemy_migrate_hotoffthehamster/changeset/databases/ibmdb2.py
+#     and happily ignores ImportError if thrown, which is what'll happen if we
+#     don't include this dependency.
+#   - Note this was only a 'test' dependency. It was still up to the user to
+#     ensure Db2 setup properly if they wanted to use it (and SQLA itself does
+#     not include support by default, either).
+#     - BWARE/2023-12-14: This likely breaks 'test_ibmdb2.py', but we haven't
+#       re-wired tests in the fork. So we'll find out later, I'm sure (assuming
+#       we eventually re-wire tests, which we should).
+#   - SAVVY: All that said, I did originally try to install this package, but
+#     it failed. Trying either of these:
+#       ibm-db-sa-py3 = ">=0.3.1-1"
+#       ibm-db-sa-py3 = ">=0.3.1"
+#     fails:
+#       ERROR: "Unable to find installation candidates for ibm-db-sa-py3 (0.3.1-1)"
+#  ibm-db-sa-py3 = ">=0.3.1"
+
+# "Helper to test command-line scripts". Last released 2013.
+#   https://pypi.org/project/scripttest/
+#   https://github.com/pypa/scripttest
+#
+# - Upstream sqlalchemy-migrate was using latest release:
+#     scripttest = ">0"
+#
+# - MAYBE/2023-12-14: Remove this package dependency.
+#   - It's used by one test (fixture/shell.py) to test
+#     the 'version' and 'db_version' CLI commands.
+#     - Note that Click has a script runner for testing,
+#       we might be able to use that.
+#   - SAVVY: Though looking at the sources, we're probably safe for a while:
+#       https://github.com/pypa/scripttest/blob/main/setup.py
+#       https://github.com/pypa/scripttest/blob/main/scripttest.py
+#     - The code has no external dependencies; it only uses pure Python.
+#       - So we're safe until Python itself deprecates or breaks something.
+scripttest = "^1.3"
+
+# "python code static checker".
+#   https://pypi.org/project/pylint/
+#
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     pylint
+#   Which is essentially:
+#     pylint = ">0"
+#   And would've been 2.4.4 circa end of 2019:
+#     pylint = ">=2.4.4"
+#   Latest release: pylint 3.0.3 (2023-12-11).
+# -  I don't see 'pylint' used anywhere in code.
+#   - Also EAPP has its own linters (blake, flake8, isort, pydocstyle, etc.).
+#  pylint = ">=2.4.4"
+
+# <NOTE(rpodolyaka): This version identifier is currently necessary as
+#                    pytz otherwise does not install on pip 1.4 or higher>
+#
+# "World timezone definitions, modern and historical"
+#   https://pypi.org/project/pytz
+#
+# - Upstream sqlalchemy-migrate was using pytz release from 2010-04-16:
+#     pytz = ">=2010h"
+#   - Though Poetry rejects this version:
+#       Running poetry lock --no-update...
+#       Could not parse version constraint: >=2010h
+#   - Fortunately, installing the latest version works:L
+#       pytz = ">=2023.3.post1"
+#     - Which also prevents conflicts with the 'nark' package, which also
+#       includes both this package and the latest 'pytz' as dependencies.
+# - All that said, I don't see 'pytz' used anywhere in code.
+#   - And doesn't seem like something a dev would run manually, so
+#     not sure why included as a 'test' dependency.
+#   - Did a quick search of all commits and the string 'pytz' only
+#     ever added as a test dependency. And the commit it was first
+#     added in didn't touch any tests. Also no explanation why it
+#     was added or needed.
+#  pytz = ">=2023.3.post1"
+{% endblock -%}
+
+# ***
+
+{#
+    [tool.poetry.dependencies]
+ #}
+
+{% block project_dependencies -%}
+# CXREF: ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/requirements.txt
+# - NOTES: Interestingly, the upstream sqlalchemy-migrate says it reloes
+#          on pip install order to avoid "wedges in gate later".
+#          - Smells like an anti-patttern or kludge.
+#            Or was there an issue with dependency resolution?
+# - COPYD: Comments below <in braces> are from upstream.
+
+# <The order of packages is significant, because pip processes them in the order
+#  of appearance. Changing the order has an impact on the overall integration
+#  process, which may cause wedges in the gate later.>
+
+# "Python Build Reasonableness". Otherwise undocumented on PyPI.
+#   https://pypi.org/project/pbr/
+#   - "A library for managing setuptools packaging needs in a consistent manner."
+#     https://docs.openstack.org/pbr/latest/
+#
+# - There's no way we could possibly need this.
+#  pbr = ">=1.8"
+
+# "Database Abstraction Library"
+#   https://pypi.org/project/SQLAlchemy/
+#
+# - Latest release: SQLAlchemy 2.0.23
+#
+# - Upstream comment:
+#     <never put a cap on this, *ever*, sqla versions are handled via
+#      tox, and if SQLA is capped it will only make it so we aren't testing
+#      against all the versions we are compatible with.>
+#   - Except that SQLA v2 breaks this project's code.
+#     - We also want to ensure we're using a compatible version as 'nark',
+#       which is the whole point of this fork, to support 'nark'.
+#
+# - MAYBE/2023-12-14: Migrate to SQLA v2?
+#   - I did a quick test, and 2.0.23 crashes sqlalchemy-migrate.
+#   - FIXME: At least try updating minor version to latest v1.
+#     - SPIKE: What API changes are necessary to migrate to SQLA v2?
+#
+# - USYNC: Use the same version as the nark dependency.
+sqlalchemy = "~1.3.16"
+
+# "Decorators for Humans"
+#   https://pypi.org/project/decorator/
+#
+# - Upstream sqlalchemy-migrate was using latest. From requirements.txt:
+#     decorator
+#   Which is essentially:
+#     decorator = ">0"
+#   And would've been 4.4 circa 2019:
+#     decorator = ">=4.4.1"
+#   Latest release: decorator 5.1.1 (2022-01-07).
+# - SAVVY: To find package usage, search 'from decorator import decorator'.
+decorator = ">=5.1.1"
+
+# "Python 2 and 3 compatibility utilities". Oh, six!
+#   https://pypi.org/project/six/
+#
+# FIXME/2023-12-14: Remove 'six' usage from this project.
+# - ... well, *MAYBE*, it's probably not worth the time until
+#   something breaks, especially if you find an easy way to
+#   remove this package from 'nark' (because it's risky relying
+#   on such old code, especially for a silly feature such as
+#   database migrations, when hardcoding migrations is probably
+#   just as good a solution (and because anyone who uses Dob
+#   shouldn't care or know about how migrations are implemented)).
+six = ">=1.7.0"
+
+# "A non-validating SQL parser."
+#   https://pypi.org/project/sqlparse/
+#
+# - Upstream sqlalchemy-migrate was using latest. From test-requirements.txt:
+#     sqlparse
+#   Which is essentially:
+#     sqlparse = ">0"
+#   And would've been 0.3.0 circa 2019:
+#     sqlparse = ">=0.3.0"
+#   Latest release: sqlparse 0.4.4 (2023-04-18).
+sqlparse = "^0.4.4"
+
+# "A very small text templating language"
+#   - Last release (canon) Tempita 0.5.2, Dec, 2013.
+#       https://pypi.org/project/Tempita/
+#
+Tempita = ">=0.4"
 {% endblock %}

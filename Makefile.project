@@ -1,0 +1,37 @@
+# vim:tw=0:ts=2:sw=2:noet:ft=make
+# Author: Landon Bouma <https://tallybark.com/>
+# Project: https://github.com/doblabs/click-hotoffthehamster#🪝
+# License: BSD-3-Clause
+
+# ***
+
+EAPP_MAKEFILE_TESTS_DISABLE ?= true
+
+EAPP_MAKEFILE_BLACK_DISABLE ?= true
+
+EAPP_MAKEFILE_FLAKE8_DISABLE ?= true
+
+EAPP_MAKEFILE_ISORT_DISABLE ?= true
+
+EAPP_MAKEFILE_DOC8_PIP_DISABLE ?= true
+
+EAPP_MAKEFILE_DOC8_POETRY_DISABLE ?= true
+
+EAPP_MAKEFILE_DOCS_DISABLE ?= true
+
+# Not disableable:
+#   EAPP_MAKEFILE_TWINE_CHECK_DISABLE
+
+# Not disableable:
+#   EAPP_MAKEFILE_POETRY_CHECK_DISABLE
+
+EAPP_MAKEFILE_PYDOCSTYLE_DISABLE ?= true
+
+EAPP_MAKEFILE_COVERAGE_DISABLE ?= true
+
+# Not disableable:
+#   EAPP_MAKEFILE_YAMLLINT_DISABLE ?= true
+
+# Local-only (CI never linkcheck's).
+EAPP_MAKEFILE_LINKCHECK_DISABLE ?= true
+

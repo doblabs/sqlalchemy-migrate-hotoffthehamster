@@ -1,5 +1,9 @@
+---
+
 - hosts: all
-  name: Autoconverted job legacy-sqlalchemy-migrate-devstack-dsvm from old job gate-sqlalchemy-migrate-devstack-dsvm-nv
+  name: >-
+    Autoconverted job legacy-sqlalchemy-migrate-devstack-dsvm
+    from old job gate-sqlalchemy-migrate-devstack-dsvm-nv
   tasks:
 
     - name: Ensure legacy workspace directory

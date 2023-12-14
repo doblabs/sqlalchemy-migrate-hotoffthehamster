@@ -65,9 +65,13 @@ class Changeset(dict):
             script.run(*p, **k)
 
 
+# SAVVY: You can get here via:
+#   py3 src/nark/migrations/manage.py create foo bar
 class Repository(pathed.Pathed):
     """A project's change script repository"""
 
+    # CXREF:
+    # ~/.kit/py/sqlalchemy-migrate-hotoffthehamster/src/sqlalchemy_migrate_hotoffthehamster/versioning/templates/repository/default/migrate.cfg
     _config = 'migrate.cfg'
     _versions = 'versions'
 

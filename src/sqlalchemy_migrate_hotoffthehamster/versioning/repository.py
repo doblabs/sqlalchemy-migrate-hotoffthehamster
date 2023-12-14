@@ -6,7 +6,6 @@ import shutil
 import string
 import logging
 
-from pkg_resources import resource_filename
 from tempita import Template as TempitaTemplate
 
 from sqlalchemy_migrate_hotoffthehamster import exceptions

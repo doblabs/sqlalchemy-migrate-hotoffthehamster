@@ -4,7 +4,7 @@
 """The migrate command-line tool."""
 
 import sys
-import inspect
+from inspect import getdoc, signature, Parameter
 import logging
 from optparse import OptionParser, BadOptionError
 
@@ -107,8 +107,33 @@ def main(argv=None, **kwargs):
     if command_func is None or command.startswith('_'):
         parser.error("Invalid command %s" % command)
 
-    parser.set_usage(inspect.getdoc(command_func))
-    f_args, f_varargs, f_kwargs, f_defaults = inspect.getargspec(command_func)
+    parser.set_usage(getdoc(command_func))
+
+    # `inspect.getargspec` is deprecated. It returned a named tuple:
+    #   ArgSpec(args, varargs, keywords, defaults)
+    # - Haha, *Deprecated since version 3.0*!
+    #     https://docs.python.org/3.2/library/inspect.html
+    #   The upstream project, sqlalchemy-migrate, was pulled kicking and
+    #   screaming from Python 2 into Python 3, I feel like. It was
+    #   supported through Python 3.6, so I'm surprised there weren't
+    #   deprecation warnings on this line (though not sure when it
+    #   was eventually removed; perhaps Python silently supported it
+    #   through at least 3.6).
+    #
+    #  # Deprecated since Py 3.0:
+    #  f_args, f_varargs, f_kwargs, f_defaults = inspect.getargspec(command_func)
+    sig = signature(command_func)
+    # Convert Signature object to the old getargspec values used below.
+    f_args = []
+    f_defaults = []
+    for name, param in sig.parameters.items():
+        if param.kind is Parameter.POSITIONAL_OR_KEYWORD:
+            f_args.append(name)
+            if param.default is not Parameter.empty:
+                f_defaults.append(param.default)
+    if not f_defaults:
+        f_defaults = None
+
     for arg in f_args:
         parser.add_option(
             "--%s" % arg,

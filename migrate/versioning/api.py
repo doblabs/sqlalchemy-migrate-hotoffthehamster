@@ -83,7 +83,7 @@ def help(cmd=None, **opts):
     return ret
 
 @catch_known_errors
-def create(repository, name, config=None, **opts):
+def create(repository, name, **opts):
     """%prog create REPOSITORY_PATH NAME [--table=TABLE]
 
     Create an empty repository at the specified path.
@@ -92,7 +92,7 @@ def create(repository, name, config=None, **opts):
     'migrate_version'.  This table is created in all version-controlled
     databases.
     """
-    repo_path = Repository.create(repository, config, name, **opts)
+    repo_path = Repository.create(repository, name, **opts)
 
 
 @catch_known_errors

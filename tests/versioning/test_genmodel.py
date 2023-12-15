@@ -16,8 +16,8 @@ class TestSchemaDiff(fixture.DB):
     table_name = 'tmp_schemadiff'
     level = fixture.DB.CONNECT
 
-    def _setup(self, url):
-        super(TestSchemaDiff, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestSchemaDiff, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.meta = MetaData(self.engine)
         self.meta.reflect()
         self.meta.drop_all()  # in case junk tables are lying around in the test database
@@ -29,12 +29,12 @@ class TestSchemaDiff(fixture.DB):
             Column('data', UnicodeText()),
         )
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         if self.table.exists():
             self.meta = MetaData(self.engine)
             self.meta.reflect()
             self.meta.drop_all()
-        super(TestSchemaDiff, self)._teardown()
+        super(TestSchemaDiff, self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     def _applyLatestModel(self):
         diff = schemadiff.getDiffOfModelAgainstDatabase(self.meta, self.engine, excludeTables=['migrate_version'])

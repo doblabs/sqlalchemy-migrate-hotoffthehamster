@@ -14,13 +14,37 @@ class Pathed(base.Base):
 
     _tmpdir = tempfile.mkdtemp()
 
-    def setUp(self):
-        super(Pathed, self).setUp()
+    def setUp(self, skip_testtools_setUp=False):
+        # DUNNO/2023-12-15: I forked this project 4 years ago, a few months
+        # before the upstream fork was seemingly abandoned (or absorbed into
+        # a larger OpenDev project?). But I didn't get tests running again
+        # until now, and many of them initially failed with testtools.TestCase
+        # complaining that either setUp or tearDown had already been called.
+        # - This backstory only necessary to say that I'd guess this used to
+        #   work, and that maybe testtools.TestCase changed its behavior.
+        # - My (limited) understanding (I've tried to avoid becoming too
+        #   intimiate with this project, and I'm not familiar with TestCase)
+        #   is that, as a subclass of TestCase, setUp and tearDown are called
+        #   automatically.
+        #   - But this project also calls setUp and tearDown from the
+        #     `@fixture.usedb()` decorator.
+        #   - Without being more intimate with the code, I don't want to
+        #     not call setUp and tearDown from the decorator. So my sol'n
+        #     is this irreverent bool passed around to guard against calling
+        #     TestCase.setUp/tearDown from the usedb() decorator.
+        if not skip_testtools_setUp:
+            # Base doesn't define setUp, so this goes to testtools.TestCase.
+            super(Pathed, self).setUp()
+
         self.temp_usable_dir = tempfile.mkdtemp()
         sys.path.append(self.temp_usable_dir)
 
-    def tearDown(self):
-        super(Pathed, self).tearDown()
+    def tearDown(self, skip_testtools_tearDown=False):
+        # See long comment in setUp re: skip_testtools_tearDown usage.
+        if not skip_testtools_tearDown:
+            # Base doesn't define setUp, so this goes to testtools.TestCase.
+            super(Pathed, self).tearDown()
+
         try:
             sys.path.remove(self.temp_usable_dir)
         except:

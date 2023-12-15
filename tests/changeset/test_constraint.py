@@ -19,14 +19,14 @@ class CommonTestConstraint(fixture.DB):
     as required.
     """
 
-    def _setup(self, url):
-        super(CommonTestConstraint, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(CommonTestConstraint, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self._create_table()
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         if hasattr(self, 'table') and self.engine.has_table(self.table.name):
             self.table.drop()
-        super(CommonTestConstraint, self)._teardown()
+        super(CommonTestConstraint, self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     def _create_table(self):
         self._connect(self.url)

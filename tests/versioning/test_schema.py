@@ -19,20 +19,22 @@ class TestControlledSchema(fixture.Pathed, fixture.DB):
     # Transactions break postgres in this test; we'll clean up after ourselves
     level = fixture.DB.CONNECT
 
-    def setUp(self):
-        super(TestControlledSchema, self).setUp()
+    def setUp(self, skip_testtools_setUp=False):
+        # Called before test case runs, via testtools, and then
+        # called again later by usedb() fixture.
+        super(TestControlledSchema, self).setUp(skip_testtools_setUp=skip_testtools_setUp)
         self.path_repos = self.temp_usable_dir + '/repo/'
         self.repos = Repository.create(self.path_repos, 'repo_name')
 
-    def _setup(self, url):
-        self.setUp()
+    def _setup(self, url, skip_testtools_setUp=False):
+        self.setUp(skip_testtools_setUp=skip_testtools_setUp)
         super(TestControlledSchema, self)._setup(url)
         self.cleanup()
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         super(TestControlledSchema, self)._teardown()
         self.cleanup()
-        self.tearDown()
+        self.tearDown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     def cleanup(self):
         # drop existing version table if necessary
@@ -42,9 +44,9 @@ class TestControlledSchema(fixture.Pathed, fixture.DB):
             # No table to drop; that's fine, be silent
             pass
 
-    def tearDown(self):
+    def tearDown(self, skip_testtools_tearDown=False):
         self.cleanup()
-        super(TestControlledSchema, self).tearDown()
+        super(TestControlledSchema, self).tearDown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     @fixture.usedb()
     def test_version_control(self):

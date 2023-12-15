@@ -22,8 +22,8 @@ class TestAddDropColumn(fixture.DB):
     table_name_idx = 'tmp_adddropcol_idx'
     table_int = 0
 
-    def _setup(self, url):
-        super(TestAddDropColumn, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestAddDropColumn, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.meta = MetaData()
         self.table = Table(self.table_name, self.meta,
             Column('id', Integer, unique=True),
@@ -44,13 +44,13 @@ class TestAddDropColumn(fixture.DB):
         self.table.create()
         self.table_idx.create()
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         if self.engine.has_table(self.table.name):
             self.table.drop()
         if self.engine.has_table(self.table_idx.name):
             self.table_idx.drop()
         self.meta.clear()
-        super(TestAddDropColumn,self)._teardown()
+        super(TestAddDropColumn,self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     def run_(self, create_column_func, drop_column_func, *col_p, **col_k):
         col_name = 'data'
@@ -502,8 +502,8 @@ class TestRename(fixture.DB):
     level = fixture.DB.CONNECT
     meta = MetaData()
 
-    def _setup(self, url):
-        super(TestRename, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestRename, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.meta.bind = self.engine
 
     @fixture.usedb(not_supported='firebird')
@@ -601,8 +601,8 @@ class TestColumnChange(fixture.DB):
     level = fixture.DB.CONNECT
     table_name = 'tmp_colchange'
 
-    def _setup(self, url):
-        super(TestColumnChange, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestColumnChange, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.meta = MetaData(self.engine)
         self.table = Table(self.table_name, self.meta,
             Column('id', Integer, primary_key=True),
@@ -618,7 +618,7 @@ class TestColumnChange(fixture.DB):
             if not self.url.startswith('sqlite://'):
                 raise
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         if self.table.exists():
             try:
                 self.table.drop(self.engine)
@@ -626,7 +626,7 @@ class TestColumnChange(fixture.DB):
                 # SQLite: database schema has changed
                 if not self.url.startswith('sqlite://'):
                     raise
-        super(TestColumnChange, self)._teardown()
+        super(TestColumnChange, self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     @fixture.usedb()
     def test_rename(self):
@@ -835,8 +835,8 @@ class TestColumnDelta(fixture.DB):
     table_name = 'tmp_coldelta'
     table_int = 0
 
-    def _setup(self, url):
-        super(TestColumnDelta, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestColumnDelta, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.meta = MetaData()
         self.table = Table(self.table_name, self.meta,
             Column('ids', String(10)),
@@ -846,11 +846,11 @@ class TestColumnDelta(fixture.DB):
             self.table.drop()
         self.table.create()
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         if self.engine.has_table(self.table.name):
             self.table.drop()
         self.meta.clear()
-        super(TestColumnDelta,self)._teardown()
+        super(TestColumnDelta,self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     def mkcol(self, name='id', type=String, *p, **k):
         return Column(name, type, *p, **k)

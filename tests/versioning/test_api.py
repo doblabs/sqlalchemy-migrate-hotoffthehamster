@@ -75,15 +75,21 @@ class TestAPI(Pathed):
 
 class TestSchemaAPI(fixture.DB, Pathed):
 
-    def _setup(self, url):
-        super(TestSchemaAPI, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestSchemaAPI, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         self.repo = self.tmp_repos()
         api.create(self.repo, 'temp')
         self.schema = api.version_control(url, self.repo)
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         self.schema = api.drop_version_control(self.url, self.repo)
-        super(TestSchemaAPI, self)._teardown()
+        super(TestSchemaAPI, self)._teardown(skip_testtools_tearDown=skip_testtools_tearDown)
+        self.tearDown(skip_testtools_tearDown=skip_testtools_tearDown)
+
+    # Py3.11 works fine without this method, but Py3.12 fails without it. Try:
+    #   pytest --pdb -s tests/versioning/test_api.py::TestSchemaAPI::test_workflow
+    def tearDown(self, skip_testtools_tearDown=False):
+        super(TestSchemaAPI, self).tearDown(skip_testtools_tearDown=skip_testtools_tearDown)
 
     @fixture.usedb()
     def test_workflow(self):

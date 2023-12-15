@@ -85,7 +85,7 @@ def usedb(supported=None, not_supported=None):
             try:
                 log.debug("Running test with engine %s", url)
                 try:
-                    self._setup(url)
+                    self._setup(url, skip_testtools_setUp=True)
                 except sa_exc.OperationalError:
                     log.info('Backend %s is not available, skip it', url)
                     continue
@@ -96,7 +96,7 @@ def usedb(supported=None, not_supported=None):
                     f(self, *a, **kw)
                 finally:
                     try:
-                        self._teardown()
+                        self._teardown(skip_testtools_tearDown=True)
                     except Exception as e:
                         raise RuntimeError('Exception during _teardown(): %r' % e)
             except Exception:
@@ -123,14 +123,14 @@ class DB(Base):
             url = self.url
         return url
 
-    def _setup(self, url):
+    def _setup(self, url, skip_testtools_setUp=False):
         self._connect(url)
         # make sure there are no tables lying around
         meta = MetaData(self.engine)
         meta.reflect()
         meta.drop_all()
 
-    def _teardown(self):
+    def _teardown(self, skip_testtools_tearDown=False):
         self._disconnect()
 
     def _connect(self, url):

@@ -10,8 +10,8 @@ from sqlalchemy_migrate_hotoffthehamster.versioning import script
 
 class TestRunChangeset(fixture.Pathed,fixture.DB):
     level=fixture.DB.CONNECT
-    def _setup(self, url):
-        super(TestRunChangeset, self)._setup(url)
+    def _setup(self, url, skip_testtools_setUp=False):
+        super(TestRunChangeset, self)._setup(url, skip_testtools_setUp=skip_testtools_setUp)
         Repository.clear()
         self.path_repos=self.tmp_repos()
         # Create repository, script

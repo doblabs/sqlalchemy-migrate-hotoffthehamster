@@ -223,9 +223,16 @@ def main(argv=None, **kwargs):
     except TypeError:
         num_defaults = 0
     f_args_default = f_args[len(f_args) - num_defaults:]
-    required = list(set(f_required) - set(f_args_default))
-    # 2023-12-14: Don't sort, so error text matches method definition order.
-    #  required.sort()
+    # Assemble list of missing required arguments. (Note we use a "stable"
+    # algorithm here, so the "Not enough arguments" line we add after the
+    # USAGE message (which is prepended by parser.error) both show arguments
+    # in the same order. Otherwise, some users — or maybe it's just me —
+    # might do a double-take and then spend a few cycles wondering why the
+    # two lists are ordered disparately.)
+    required = []
+    for arg in f_required:
+        if arg not in f_args_default:
+            required.append(arg)
     if required:
         parser.error("Not enough arguments for command %s: %s not specified" \
             % (command, ', '.join(required)))

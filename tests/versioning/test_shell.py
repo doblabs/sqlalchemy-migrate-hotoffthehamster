@@ -86,7 +86,7 @@ class TestShellCommands(Shell):
 
         self._check_error(['foobar'],2,'error: Invalid command foobar')
         self._check_error(['create', 'f', 'o', 'o'],2,'error: Too many arguments for command create: o')
-        self._check_error(['create'],2,'error: Not enough arguments for command create: name, repository not specified')
+        self._check_error(['create'],2,'error: Not enough arguments for command create: repository, name not specified')
         self._check_error(['create', 'repo_name'],2,'already exists', repository=repos)
 
     def test_create(self):

@@ -444,10 +444,27 @@ Sometimes you need to write code for a specific database. Migrate scripts can
 run under any database, however - the engine you're given might belong to any
 database. Use engine.name to get the name of the database you're working with
 
+.. SAVVY: Our `pytest tests/integrated/test_docs.py` calls doctest on all
+.. reST files, and doctest executes anything after triple brackets `>>>`
+.. that isn't within a comment (like it is here).
+.. - doctest also verifies OUTPUT on the line after the prompt.
+..   - So the four >>> commands in the next code-block must succeed,
+..     and the final command is tested that it returns 'sqlite'.
+..
+.. BWARE: If commands fails, doctest prints an obscure error message, e.g.,
+..
+..    E   doctest.UnexpectedException: <DocTest versioning.rst from
+..          /home/user/.kit/py/sqlalchemy-migrate-hotoffthehamster/
+..             tests/integrated/../../doc/source/versioning.rst:0 (4 examples)>
+..
+..   - Just remember "UnexpectedException" means a '>>>' is broken,
+..     and the example count (e.g., "4 examples"), is how many '>>>'
+..     are broken.
+
 .. code-block:: python
 
  >>> from sqlalchemy import *
- >>> from migrate import *
+ >>> from sqlalchemy_migrate_hotoffthehamster import *
  >>>
  >>> engine = create_engine('sqlite:///:memory:')
  >>> engine.name

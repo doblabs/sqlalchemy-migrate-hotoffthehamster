@@ -6,7 +6,7 @@
 Database schema versioning workflow
 ***********************************
 
-SQLAlchemy migrate provides the :mod:`migrate.versioning` API that is
+SQLAlchemy migrate provides the :mod:`sqlalchemy_migrate_hotoffthehamster.versioning`
 API that is also available as the :ref:`migrate-hoth <command-line-usage>` command.
 
 Purpose of this package is frontend for migrations. It provides commands to
@@ -185,8 +185,9 @@ Our change script predefines two functions, currently empty:
 
 .. note::
 
-    The generated script contains * imports from sqlalchemy and migrate. You
-    should tailor the imports to fit your actual demand.
+    The generated script contains * imports from sqlalchemy and
+    sqlalchemy_migrate_hotoffthehamster. You should tailor the
+    imports to fit your actual demand.
 
 As you might have guessed, :py:func:`upgrade` upgrades the database to the next
 version. This function should contain the :ref:`schema changes
@@ -383,7 +384,7 @@ changing when your source code does.
     .. code-block:: python
 
         from sqlalchemy import *
-        from migrate import *
+        from sqlalchemy_migrate_hotoffthehamster import *
         import model
 
         def upgrade(migrate_engine):
@@ -411,7 +412,7 @@ changing when your source code does.
     .. code-block:: python
 
         from sqlalchemy import *
-        from migrate import *
+        from sqlalchemy_migrate_hotoffthehamster import *
         import model
 
         def upgrade(migrate_engine):
@@ -495,7 +496,7 @@ be used here - ex. sqlite, postgresql, oracle, mysql...
 Command line usage
 ==================
 
-.. currentmodule:: migrate.versioning.shell
+.. currentmodule:: sqlalchemy_migrate_hotoffthehamster.versioning.shell
 
 :command:`migrate-hoth` command is used for API interface. For list of
 commands and help use::
@@ -505,9 +506,9 @@ commands and help use::
 :command:`migrate-hoth` command executes :func:`main` function.
 For ease of usage, generate your own :ref:`project management script
 <project_management_script>`, which calls :func:`main
-<migrate.versioning.shell.main>` function with keywords arguments. You may want
-to specify `url` and `repository` arguments which almost all API functions
-require.
+<sqlalchemy_migrate_hotoffthehamster.versioning.shell.main>` function with
+keywords arguments. You may want to specify `url` and `repository` arguments
+which almost all API functions require.
 
 If api command looks like::
 
@@ -517,7 +518,7 @@ and you have a project management script that looks like
 
 .. code-block:: python
 
-    from migrate.versioning.shell import main
+    from sqlalchemy_migrate_hotoffthehamster.versioning.shell import main
 
     main(url='sqlite://', repository='./project/migrations/')
 
@@ -533,13 +534,14 @@ you have first two slots filed, and command line usage would look like::
     Command line parsing refactored: positional parameters usage
 
 Whole command line parsing was rewriten from scratch with use of OptionParser.
-Options passed as kwargs to :func:`~migrate.versioning.shell.main` are now
+Options passed as kwargs to
+:func:`~sqlalchemy_migrate_hotoffthehamster.versioning.shell.main` are now
 parsed correctly. Options are passed to commands in the following priority
 (starting from highest):
 
 - optional (given by :option:`--some_option` in commandline)
 - positional arguments
-- kwargs passed to :func:`migrate.versioning.shell.main`
+- kwargs passed to :func:`sqlalchemy_migrate_hotoffthehamster.versioning.shell.main`
 
 
 Python API
@@ -548,10 +550,11 @@ Python API
 .. currentmodule:: migrate.versioning.api
 
 All commands available from the command line are also available for
-your Python scripts by importing :mod:`migrate.versioning.api`. See the
-:mod:`migrate.versioning.api` documentation for a list of functions;
-function names match equivalent shell commands. You can use this to
-help integrate SQLAlchemy Migrate with your existing update process.
+your Python scripts by importing
+:mod:`sqlalchemy_migrate_hotoffthehamster.versioning.api`. See the
+:mod:`sqlalchemy_migrate_hotoffthehamster.versioning.api` documentation for
+a list of functions; function names match equivalent shell commands. You can
+use this to help integrate SQLAlchemy Migrate with your existing update process.
 
 For example, the following commands are similar:
 
@@ -566,8 +569,8 @@ For example, the following commands are similar:
 
 .. code-block:: python
 
- import migrate.versioning.api
- migrate.versioning.api.help('help')
+ import sqlalchemy_migrate_hotoffthehamster.versioning.api
+ sqlalchemy_migrate_hotoffthehamster.versioning.api.help('help')
  # Output:
  # %prog help COMMAND
  #
@@ -642,7 +645,7 @@ Customize templates
 
 Users can pass ``templates_path`` to API functions to provide customized
 templates path.  Path should be a collection of templates, like
-``migrate.versioning.templates`` package directory.
+``sqlalchemy_migrate_hotoffthehamster.versioning.templates`` package directory.
 
 One may also want to specify custom themes. API functions accept
 ``templates_theme`` for this purpose (which defaults to `default`)

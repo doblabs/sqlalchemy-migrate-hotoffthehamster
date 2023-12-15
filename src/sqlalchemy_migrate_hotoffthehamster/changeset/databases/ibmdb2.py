@@ -2,9 +2,16 @@
     DB2 database specific implementations of changeset classes.
 """
 
+from collections import namedtuple
 import logging
 
-from ibm_db_sa import base
+try:
+    from ibm_db_sa import base
+except ModuleNotFoundError:
+    Ibmdb2Base = namedtuple('Ibmdb2Base', 'IBM_DBDDLCompiler')
+    class EmptyClass:
+        pass
+    base = Ibmdb2Base(EmptyClass)
 from sqlalchemy.schema import (AddConstraint,
                                CreateIndex,
                                DropConstraint)

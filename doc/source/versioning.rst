@@ -7,7 +7,7 @@ Database schema versioning workflow
 ***********************************
 
 SQLAlchemy migrate provides the :mod:`migrate.versioning` API that is
-also available as the :ref:`migrate <command-line-usage>` command.
+API that is also available as the :ref:`migrate-hoth <command-line-usage>` command.
 
 Purpose of this package is frontend for migrations. It provides commands to
 manage migrate :term:`repository` and database selection as well as script
@@ -24,10 +24,10 @@ Create a change repository
 
 To begin, we'll need to create a :term:`repository` for our project.
 
-All work with repositories is done using the :ref:`migrate
+All work with repositories is done using the :ref:`migrate-hoth
 <command-line-usage>` command. Let's create our project's repository::
 
- $ migrate create my_repository "Example project"
+ $ migrate-hoth create my_repository "Example project"
 
 This creates an initially empty :term:`repository` relative to current
 directory at :file:`my_repository/` named `Example project`.
@@ -37,7 +37,7 @@ will store the :ref:`schema versions <changeset-system>`, a configuration file
 :file:`migrate.cfg` that contains :ref:`repository configuration
 <repository_configuration>` and a script :ref:`manage.py
 <project_management_script>` that has the same functionality as the
-:ref:`migrate <command-line-usage>` command but is preconfigured with
+:ref:`migrate-hoth <command-line-usage>` command but is preconfigured with
 repository specific parameters.
 
 .. note::
@@ -104,12 +104,12 @@ path - typing them each time is tedious. We can create a script for our project
 that remembers the database and :term:`repository` we're using, and use it to
 perform commands::
 
- $ migrate manage manage.py --repository=my_repository --url=sqlite:///project.db
+ $ migrate-hoth manage manage.py --repository=my_repository --url=sqlite:///project.db
  $ python manage.py db_version
  0
 
 The script :file:`manage.py` was created. All commands we perform with it are
-the same as those performed with the :ref:`migrate <command-line-usage>` tool,
+the same as those performed with the :ref:`migrate-hoth <command-line-usage>` tool,
 using the :term:`repository` and database connection entered above. The
 difference between the script :file:`manage.py` in the current directory and
 the script inside the repository is, that the one in the current directory has
@@ -119,7 +119,7 @@ the database URL preconfigured.
 
    Parameters specified in manage.py should be the same as in :ref:`versioning
    api <versioning-api>`. Preconfigured parameter should just be omitted from
-   :ref:`migrate <command-line-usage>` command.
+   :ref:`migrate-hoth <command-line-usage>` command.
 
 
 Making schema changes
@@ -480,12 +480,12 @@ Command line usage
 
 .. currentmodule:: migrate.versioning.shell
 
-:command:`migrate` command is used for API interface. For list of commands and
-help use::
+:command:`migrate-hoth` command is used for API interface. For list of
+commands and help use::
 
  $ migrate --help
 
-:command:`migrate` command executes :func:`main` function.
+:command:`migrate-hoth` command executes :func:`main` function.
 For ease of usage, generate your own :ref:`project management script
 <project_management_script>`, which calls :func:`main
 <migrate.versioning.shell.main>` function with keywords arguments. You may want
@@ -494,7 +494,7 @@ require.
 
 If api command looks like::
 
- $ migrate downgrade URL REPOSITORY VERSION [--preview_sql|--preview_py]
+ $ migrate-hoth downgrade URL REPOSITORY VERSION [--preview_sql|--preview_py]
 
 and you have a project management script that looks like
 
@@ -507,10 +507,10 @@ and you have a project management script that looks like
 you have first two slots filed, and command line usage would look like::
 
     # preview Python script
-    $ migrate downgrade 2 --preview_py
+    $ migrate-hoth downgrade 2 --preview_py
 
     # downgrade to version 2
-    $ migrate downgrade 2
+    $ migrate-hoth downgrade 2
 
 .. versionchanged:: 0.5.4
     Command line parsing refactored: positional parameters usage
@@ -540,8 +540,8 @@ For example, the following commands are similar:
 
 *From the command line*::
 
- $ migrate help help
- /usr/bin/migrate help COMMAND
+ $ migrate-hoth help help
+ /usr/bin/migrate-hoth help COMMAND
 
      Displays help on a given command.
 
@@ -636,6 +636,6 @@ Example::
  default.py_tmpl
  pylons.py_tmpl
 
- /home/user/templates/manage $ migrate manage manage.py --templates_path=/home/user/templates --templates_theme=pylons
+ /home/user/templates/manage $ migrate-hoth manage manage.py --templates_path=/home/user/templates --templates_theme=pylons
 
 .. versionadded:: 0.6.0

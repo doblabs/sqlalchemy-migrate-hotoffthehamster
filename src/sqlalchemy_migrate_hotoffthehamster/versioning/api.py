@@ -202,7 +202,7 @@ def downgrade(url, repository, version, config=None, **opts):
     return _migrate(url, repository, config, version, upgrade=False, err=err, **opts)
 
 @with_engine
-def test(url, repository, config=None, **opts):
+def test(url, repository, **opts):
     """%prog test URL REPOSITORY_PATH [VERSION]
 
     Performs the upgrade and downgrade option on the given
@@ -211,7 +211,7 @@ def test(url, repository, config=None, **opts):
     your database.
     """
     engine = opts.pop('engine')
-    repos = Repository(repository, config=config)
+    repos = Repository(repository)
 
     # Upgrade
     log.info("Upgrading...")

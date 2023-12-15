@@ -94,12 +94,16 @@ class TestSchemaAPI(fixture.DB, Pathed):
     @fixture.usedb()
     def test_workflow(self):
         self.assertEqual(api.db_version(self.url, self.repo), 0)
+
         api.script('First Version', self.repo)
         self.assertEqual(api.db_version(self.url, self.repo), 0)
+
         api.upgrade(self.url, self.repo, 1)
         self.assertEqual(api.db_version(self.url, self.repo), 1)
+
         api.downgrade(self.url, self.repo, 0)
         self.assertEqual(api.db_version(self.url, self.repo), 0)
+
         api.test(self.url, self.repo)
         self.assertEqual(api.db_version(self.url, self.repo), 0)
 

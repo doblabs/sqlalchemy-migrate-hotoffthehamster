@@ -29,7 +29,7 @@ DIALECTS = {
 try:
     from sqlalchemy_migrate_hotoffthehamster.changeset.databases import ibmdb2
     DIALECTS["ibm_db_sa"] = ibmdb2.IBMDBDialect
-except ImportError:
+except ModuleNotFoundError:
     pass
 
 

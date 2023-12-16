@@ -11,7 +11,7 @@ from sqlalchemy import MetaData, Table
 
 from sqlalchemy_migrate_hotoffthehamster.exceptions import *
 from sqlalchemy_migrate_hotoffthehamster.versioning.repository import Repository
-from sqlalchemy_migrate_hotoffthehamster.versioning import genmodel, shell, api
+from sqlalchemy_migrate_hotoffthehamster.versioning import shell, api
 from sqlalchemy_migrate_hotoffthehamster.tests.fixture import Shell, DB, usedb
 from sqlalchemy_migrate_hotoffthehamster.tests.fixture import models
 

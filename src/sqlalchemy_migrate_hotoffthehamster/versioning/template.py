@@ -5,7 +5,14 @@ import os
 import shutil
 import sys
 
-from pkg_resources import resource_filename
+from importlib import resources as importlib_resources
+
+try:
+    importlib_resources.files
+except AttributeError:  # Python 3.8.
+    # LATER/2023-12-16: Remove this branch when Python 3.8 EOLs, after 2024-10.
+
+    from pkg_resources import resource_filename
 
 from sqlalchemy_migrate_hotoffthehamster.versioning.config import *
 from sqlalchemy_migrate_hotoffthehamster.versioning import pathed
@@ -56,12 +63,15 @@ class Template(pathed.Pathed):
     @classmethod
     def _find_path(cls, pkg):
         """Returns absolute path to dotted python package."""
-        tmp_pkg = pkg.rsplit('.', 1)
+        try:
+            return importlib_resources.files(pkg).as_posix()
+        except AttributeError:  # Python 3.8.
+            tmp_pkg = pkg.rsplit('.', 1)
 
-        if len(tmp_pkg) != 1:
-            return resource_filename(tmp_pkg[0], tmp_pkg[1])
-        else:
-            return resource_filename(tmp_pkg[0], '')
+            if len(tmp_pkg) != 1:
+                return resource_filename(tmp_pkg[0], tmp_pkg[1])
+            else:
+                return resource_filename(tmp_pkg[0], '')
 
     def _get_item(self, collection, theme=None):
         """Locates and returns collection.

@@ -1,5 +1,6 @@
+@@@@@@@@@@@@@@@@@@
 SQLAlchemy Migrate
-==================
+@@@@@@@@@@@@@@@@@@
 
 Fork from http://code.google.com/p/sqlalchemy-migrate/ to get it working with
 SQLAlchemy 0.8.
@@ -11,8 +12,9 @@ Migrate extends SQLAlchemy to have database changeset handling. It provides a
 database change repository mechanism which can be used from the command line as
 well as from inside python code.
 
+####
 Help
-----
+####
 
 Sphinx documentation is available at the project page `readthedocs.org
 <https://sqlalchemy-migrate.readthedocs.org/>`_.
@@ -33,8 +35,10 @@ Homepage is located at `stackforge
 You can also clone a current `development version
 <http://github.com/stackforge/sqlalchemy-migrate>`_
 
+
+##############
 Tests and Bugs
---------------
+##############
 
 To run automated tests:
 

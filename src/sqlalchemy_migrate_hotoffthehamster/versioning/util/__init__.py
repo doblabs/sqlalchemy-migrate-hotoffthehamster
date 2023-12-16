@@ -5,7 +5,7 @@
 import warnings
 import logging
 from decorator import decorator
-from pkg_resources import EntryPoint
+from importlib import import_module
 
 import six
 from sqlalchemy import create_engine
@@ -27,6 +27,8 @@ def load_model(dotted_name):
     .. versionchanged:: 0.5.4
 
     """
+    # DEVEL: You can hit this fcn via test:
+    #   pytest --pdb -s -vv tests/versioning/test_util.py::TestUtil::test_load_model
     if isinstance(dotted_name, six.string_types):
         if ':' not in dotted_name:
             # backwards compatibility
@@ -34,13 +36,10 @@ def load_model(dotted_name):
                 'and not module.model.User', exceptions.MigrateDeprecationWarning)
             dotted_name = ':'.join(dotted_name.rsplit('.', 1))
 
-        ep = EntryPoint.parse('x=%s' % dotted_name)
-        if hasattr(ep, 'resolve'):
-            # this is available on setuptools >= 10.2
-            return ep.resolve()
-        else:
-            # this causes a DeprecationWarning on setuptools >= 11.3
-            return ep.load(False)
+        module_name, class_name = dotted_name.split(':')
+        cls = getattr(import_module(module_name), class_name)
+
+        return cls
     else:
         # Assume it's already loaded.
         return dotted_name

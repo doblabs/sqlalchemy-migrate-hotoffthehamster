@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import imp
+from importlib.util import cache_from_source
 import os
 import sys
 import shutil
@@ -54,7 +54,9 @@ class TestPyScript(fixture.Pathed, fixture.DB):
 
         # clean pyc file
         if six.PY3:
-            os.remove(imp.cache_from_source(script_path))
+            # Remove module cache file, e.g.,
+            #   '/tmp/tmp5yjmweu1/__pycache__/0lcb8ftr.cpython-311.pyc'
+            os.remove(cache_from_source(script_path))
         else:
             os.remove(script_path + 'c')
 

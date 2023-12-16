@@ -2,6 +2,41 @@
 SQLAlchemy Migrate
 @@@@@@@@@@@@@@@@@@
 
+.. CXREF:
+   https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge
+
+.. image:: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/actions/workflows/checks-unspecial.yml/badge.svg?branch=release
+  :target: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/actions/workflows/checks-unspecial.yml/badge.svg?branch=release
+  :alt: Build Status
+
+.. CXREF: https://app.codecov.io/github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/settings/badge
+
+.. image:: https://codecov.io/gh/doblabs/sqlalchemy-migrate-hotoffthehamster/branch/release/graph/badge.svg?token=XXX
+  :target: https://app.codecov.io/gh/doblabs/sqlalchemy-migrate-hotoffthehamster
+  :alt: Coverage Status
+
+.. image:: https://readthedocs.org/projects/sqlalchemy-migrate-hotoffthehamster/badge/?version=latest
+  :target: https://sqlalchemy-migrate-hotoffthehamster.readthedocs.io/en/latest/
+  :alt: Documentation Status
+
+.. image:: https://img.shields.io/github/v/release/doblabs/sqlalchemy-migrate-hotoffthehamster.svg?style=flat
+  :target: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/releases
+  :alt: GitHub Release Status
+
+.. image:: https://img.shields.io/pypi/v/sqlalchemy-migrate-hotoffthehamster.svg
+  :target: https://pypi.org/project/sqlalchemy-migrate-hotoffthehamster/
+  :alt: PyPI Release Status
+
+.. image:: https://img.shields.io/pypi/pyversions/sqlalchemy-migrate-hotoffthehamster.svg
+  :target: https://pypi.org/project/sqlalchemy-migrate-hotoffthehamster/
+  :alt: PyPI Supported Python Versions
+
+.. image:: https://img.shields.io/github/license/doblabs/sqlalchemy-migrate-hotoffthehamster.svg?style=flat
+  :target: https://github.com/doblabs/sqlalchemy-migrate-hotoffthehamster/blob/release/LICENSE
+  :alt: License Status
+
+|
+
 Fork from http://code.google.com/p/sqlalchemy-migrate/ to get it working with
 SQLAlchemy 0.8.
 

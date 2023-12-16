@@ -46,6 +46,54 @@ class TestShellCommands(Shell):
         # TODO: assert logging messages to 0
         shell.main(['version', repos], logging=False)
 
+    # 2023-12-15: This test calls `del sys.modules[module]`, which hopefully
+    # looks awful and smells awkward to you.
+    #
+    # - The run_module call is how Python implements `python -m <module>`:
+    #
+    #   - "The runpy module is used to locate and run Python modules without
+    #      importing them first. Its main use is to implement the -m command
+    #      line switch that allows scripts to be located using the Python
+    #      module namespace rather than the filesystem."
+    #
+    #      - REFER: https://docs.python.org/3/library/runpy.html
+    #
+    # - Given that runpy doesn't import the module first, but rather just
+    #   runs it (however that works), it's designed to emit a warning if
+    #   the module being executed was previously imported, e.g.,
+    #
+    #     <frozen runpy>:128: RuntimeWarning:
+    #       'sqlalchemy_migrate_hotoffthehamster.versioning.shell'
+    #     found in sys.modules after import of package
+    #       'sqlalchemy_migrate_hotoffthehamster.versioning',
+    #     but prior to execution
+    #       'sqlalchemy_migrate_hotoffthehamster.versioning.shell';
+    #     this may result in unpredictable behaviour
+    #
+    # - At first, I tried to silence the warning by using import aliases,
+    #   e.g., instead of this:
+    #
+    #     from sqlalchemy_migrate_hotoffthehamster.versioning import shell, api
+    #
+    #   I tried this:
+    #
+    #     from sqlalchemy_migrate_hotoffthehamster import versioning as migrate_versioning
+    #
+    #   which sorta worked, but not completely.
+    #
+    # - Next, I ran this test from its own module. But `pytest` runs everything
+    #   within a single invocation, so I was not surprised that that didn't work,
+    #   either.
+    #
+    # - Finally, as a last resort, I added code to manipulate sys.modules
+    #   directly (an anti-pattern, for sure), which (thankfully?) works.
+    #
+    #   - And note that once a module is loaded in Python, there's not technically
+    #     a way to unload it. We can delete it from `sys.modules`, which appeases
+    #     runpy (I'd guess it just doesn't see the module, even though it's still
+    #     there). So while runpy no longer warns us that the universe is unsettled,
+    #     I fear that playing god and meddling with sys.modules is an imperfect
+    #     solution. But Hey, It Works (At Least For Now)!
     def test_main_with_runpy(self):
         if sys.version_info[:2] == (2, 4):
             self.skipTest("runpy is not part of python2.4")
@@ -54,7 +102,12 @@ class TestShellCommands(Shell):
             original = sys.argv
             sys.argv=['X','--help']
 
-            run_module('sqlalchemy_migrate_hotoffthehamster.versioning.shell', run_name='__main__')
+            # See comment above function def; this Good Idea or Bad Idea? Who Knows.
+            module_name = 'sqlalchemy_migrate_hotoffthehamster.versioning.shell'
+            if module_name in sys.modules:
+                del sys.modules[module_name]
+
+            run_module(module_name, run_name='__main__')
 
         finally:
             sys.argv = original

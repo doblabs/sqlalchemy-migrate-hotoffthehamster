@@ -192,7 +192,9 @@ jobs:
           trim_null="select( . != null )"
 
           version_command="$(
-            tomlq -r ".tool.easy_as_pypi.smoke_test_version | ${trim_null}" "pyproject.toml"
+            tomlq -r \
+              ".tool.easy_as_pypi.smoke_test_version | ${trim_null}" \
+              "pyproject.toml"
           )"
 
           if [ -z "${version_cmd}" ]; then

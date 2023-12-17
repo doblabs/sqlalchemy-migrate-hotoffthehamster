@@ -156,7 +156,6 @@ download = "https://pypi.org/project/sqlalchemy-migrate-hotoffthehamster/#files"
     "six",
     "sqlparse",
     "tempita",
-    "tempita_hotoffthehamster",
 {%- endblock %}
 
 {# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #}
@@ -538,6 +537,15 @@ sqlparse = "^0.4.4"
 # "A very small text templating language"
 #   - Last release (canon) Tempita 0.5.2, Dec, 2013.
 #       https://pypi.org/project/Tempita/
+#   - A number of forks since:
+#       https://github.com/search?q=tempita&type=repositories
+#       https://pypi.org/search/?q=tempita&o=
+#     Including the two the have fixed the `cgi` deprecation:
+#       https://github.com/nsoranzo/tempita.git'
+#       https://github.com/TurboGears/tempita.git'
+#     Yet neither released to PyPI, so...
+#       Welcome to the HOTH family, tempita-hotoffthehamster!
 #
-Tempita = ">=0.4"
+#  Tempita = ">=0.4"
+tempita-hotoffthehamster = ">0"
 {% endblock %}

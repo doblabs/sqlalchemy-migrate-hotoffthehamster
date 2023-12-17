@@ -135,6 +135,8 @@ class Repository(pathed.Pathed):
 
         return ret
 
+    # TRYME: Run:
+    #   migrate-hoth create my_repository "Example project"
     @classmethod
     def create(cls, path, name, **opts):
         """Create a repository at a specified path"""

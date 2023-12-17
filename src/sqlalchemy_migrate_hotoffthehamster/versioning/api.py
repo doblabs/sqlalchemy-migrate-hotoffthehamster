@@ -29,7 +29,7 @@ import sys
 import inspect
 import logging
 
-from sqlalchemy_migrate_hotoffthehamster import exceptions
+from sqlalchemy_migrate_hotoffthehamster import exceptions, __version__
 from sqlalchemy_migrate_hotoffthehamster.versioning import (repository, schema, version,
     script as script_) # command name conflict
 from sqlalchemy_migrate_hotoffthehamster.versioning.util import catch_known_errors, with_engine
@@ -41,6 +41,7 @@ command_desc = {
     'create': 'create an empty repository at the specified path',
     'script': 'create an empty change Python script',
     'script_sql': 'create empty change SQL scripts for given database',
+    'Version': 'display the app version',
     'version': 'display the latest version available in a repository',
     'db_version': 'show the current version of the repository under version control',
     'source': 'display the Python code for a particular version in this repository',
@@ -123,6 +124,17 @@ def script_sql(database, description, repository, config=None, **opts):
     """
     repo = Repository(repository, config=config)
     repo.create_script_sql(database, description, **opts)
+
+
+def Version(**opts):
+    """%prog _version
+
+    Display the app version.
+    """
+    app_name = "migrate-hoth"
+    version = __version__ or "<development>"
+
+    print(f"{app_name} version {version}")
 
 
 def version(repository, config=None, **opts):

@@ -191,15 +191,17 @@ jobs:
 
           trim_null="select( . != null )"
 
-          version_command="$(
-            tomlq -r ".tool.easy_as_pypi.smoke_test_version | ${trim_null}" "pyproject.toml"
+          version_cmd="$(
+            tomlq -r \
+              ".tool.easy_as_pypi.smoke_test_version | ${trim_null}" \
+              "pyproject.toml"
           )"
 
           if [ -z "${version_cmd}" ]; then
             version_cmd="$PACKAGE_NAME version"
           fi
 
-          echo "version_command=${version_command}" >> "$GITHUB_OUTPUT"
+          echo "version_cmd=${version_cmd}" >> "$GITHUB_OUTPUT"
 
       # ***
 
@@ -237,17 +239,17 @@ jobs:
       #            and application version are different.
       - name: Run it!
         run: |
-          version_cmd="${{ steps.infer-version-command.outputs.version_command }}"
-          echo "Checking \$PACKAGE_NAME version » $VERSION"
-          # FIXME/2023-10-01 14:00: This echo probably unnecessary.
+          version_cmd="${{ steps.infer-version-command.outputs.version_cmd }}"
+          echo "Checking <app-name> version » $VERSION"
           echo "\$ ${version_cmd}"
           ${version_cmd}
         shell: bash
 
       - name: Check version
         run: |
-          version_cmd="${{ steps.infer-version-command.outputs.version_command }}"
-          [ "$($version_cmd)" = "$PACKAGE_NAME version $VERSION" ] \
+          version_cmd="${{ steps.infer-version-command.outputs.version_cmd }}"
+          [ "$($version_cmd)" = \
+            "$(echo ${version_cmd} | cut -d' ' -f1) version $VERSION" ] \
             || exit 1
         shell: bash
 

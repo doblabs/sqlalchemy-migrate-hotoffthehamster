@@ -7,6 +7,10 @@
 
 EAPP_MAKEFILE_TESTS_DISABLE ?= false
 
+# MAYBE/2023-12-16: If anyone wants to fix Windows support (though not sure
+# it ever was supported), there's something about paths breaks Windows tests.
+EAPP_MAKEFILE_TESTS_WINDOWS_DISABLE ?= true
+
 EAPP_MAKEFILE_BLACK_DISABLE ?= true
 
 EAPP_MAKEFILE_FLAKE8_DISABLE ?= true

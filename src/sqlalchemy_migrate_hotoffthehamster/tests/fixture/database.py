@@ -139,7 +139,8 @@ class DB(Base):
         #self.engine = create_engine(url, echo=True, poolclass=StaticPool)
         self.engine = create_engine(url, echo=True)
         # silence the logger added by SA, nose adds its own!
-        logging.getLogger('sqlalchemy').handlers=[]
+        # TRYME/2023-12-18 13:35: This fork doesn't use nose:
+        #  logging.getLogger('sqlalchemy').handlers=[]
         self.meta = MetaData(bind=self.engine)
         if self.level < self.CONNECT:
             return
